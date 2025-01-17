@@ -11,4 +11,8 @@ Names:
 <br/>
 נווה וזדיאס הדס - 209169424
 
+## Extra info for now
+- Our new bucket for this assignment is called "bucketassignment3"
+- Command to read the output file directly to the terminal without downloading it:
+aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 -
 

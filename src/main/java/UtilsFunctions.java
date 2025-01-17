@@ -1,4 +1,9 @@
 import org.apache.hadoop.io.Text;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.*;
+
+import java.util.List;
 
 
 public class UtilsFunctions {
@@ -24,8 +29,8 @@ public class UtilsFunctions {
                 break;
             default:
                 System.out.println("UtilsFunctions.reverseWords: Invalid input format" + input.toString());
-            }
-
-            return new Text(reversed.toString());
         }
+
+        return new Text(reversed.toString());
+    }
 }
