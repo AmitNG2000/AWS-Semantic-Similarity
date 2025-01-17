@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="&quot;Used ass2 as template&quot;">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AWS.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Step2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Step3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Step4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Step5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/Comparing_measures_of_semantic_similarity.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/assignment3.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/word-relatedness.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step1WordCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step2CalculateN.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step3CalculateC.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step4CalculateP.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step5ArrangeResults.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/UtilsFunctions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$MapperClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$PartitionerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$ReducerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$MapperClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$PartitionerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$ReducerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$MapperClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$PartitionerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$ReducerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$Combiner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$MapperClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$PartitionerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$ReducerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$MapperClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$PartitionerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$ReducerClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2rkV6neOzwTYEwM1wVxtycIgsNt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 3/ASS3 GITHUB&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ASS3 GITHUB" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ASS3 GITHUB" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="" />
+      <created>1737102887213</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1737102887213</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&quot;Used ass2 as template&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Used ass2 as template&quot;" />
+  </component>
+</project>
