@@ -5,59 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="&quot;Used ass2 as template&quot;">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AWS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step3.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/CompileStep/Step5.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Step2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Step3.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Step4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Step5.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/Comparing_measures_of_semantic_similarity.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/assignment3.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/word-relatedness.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Step1WordCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Step2CalculateN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Step3CalculateC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Step4CalculateP.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Step5ArrangeResults.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/UtilsFunctions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$MapperClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$PartitionerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount$ReducerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step1WordCount.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$MapperClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$PartitionerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN$ReducerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step2CalculateN.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$MapperClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$PartitionerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC$ReducerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step3CalculateC.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$Combiner.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$MapperClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$PartitionerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP$ReducerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step4CalculateP.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$MapperClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$PartitionerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults$ReducerClass.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/Step5ArrangeResults.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +64,15 @@
       <option name="presentableId" value="Default" />
       <updated>1737102887213</updated>
     </task>
+    <task id="LOCAL-00001" summary="&quot;Used ass2 as template&quot;">
+      <option name="closed" value="true" />
+      <created>1737105580665</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1737105580665</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
