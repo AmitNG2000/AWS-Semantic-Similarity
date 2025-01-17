@@ -139,9 +139,9 @@ public class Step1WordCount {
         job.setOutputFormatClass(TextOutputFormat.class);
         job.setInputFormatClass(SequenceFileInputFormat.class);
         //For demo testing
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/arbix.txt" , App.s3Path)));
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
         //3-Gram input
-        FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data"));
+        //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this, this is not relevant
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1_word_count" , App.s3Path)));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
