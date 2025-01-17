@@ -22,7 +22,7 @@ public class App {
     public static int numberOfInstances = 2;  //Do Not Exceed The Limit!
 
 
-    private static final String bucketName = "bucketassignment3";  //change if needed
+    private static final String bucketName = "bucketassignment3";
     public static final String s3Path = String.format("s3://%s", bucketName);
 
     /**

@@ -9,33 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="And added the relevant files.">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/LocalApp_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/METAS/Step1/META-INF/MANIFEST.MF" afterDir="false" />
+    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Added all files">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass3inputtemp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ass3inputtemp.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CompileStep/Step1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CompileStep/Step2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CompileStep/Step3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CompileStep/Step4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CompileStep/Step5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1WordCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UtilsFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UtilsFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1WordCount$MapperClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1WordCount$PartitionerClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1WordCount$ReducerClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1WordCount.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Step1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,19 +46,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 1/GITHUBASS1/Assignment1",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.106269896",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 1/GITHUBASS1/Assignment1&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.106269896&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="App" />
@@ -161,7 +143,23 @@
       <option name="project" value="LOCAL" />
       <updated>1737120065497</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="In the middle of step1">
+      <option name="closed" value="true" />
+      <created>1737129409124</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737129409124</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added all files">
+      <option name="closed" value="true" />
+      <created>1737129429718</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737129429718</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -169,6 +167,8 @@
     <MESSAGE value="&quot;Reset readme&quot;" />
     <MESSAGE value="Added in FormatNGramTemplate logic to fomrat NGRAM Line to data needed and added requested stemmer functionality." />
     <MESSAGE value="And added the relevant files." />
-    <option name="LAST_COMMIT_MESSAGE" value="And added the relevant files." />
+    <MESSAGE value="In the middle of step1" />
+    <MESSAGE value="Added all files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added all files" />
   </component>
 </project>

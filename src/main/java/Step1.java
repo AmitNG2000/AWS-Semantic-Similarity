@@ -18,10 +18,10 @@ import java.util.Map;
 
 
 /**
- *  Calculate the number single (w1), pairs (w1,w2) and trio (w1,w2,w3) in the corpus.
- * @pre for demo, the inoutfile is at S3 with App.<bucketName>
- * @Input split from a text file
- * @Output: ((w1), <LongWritable>), ((w1,w2), <LongWritable>), ((w1,w2,w3), <LongWritable>)
+ *  Calculate the number of appearances of pairs of words with their dependency using the NGRAM input format. For exmaple "likes dog subj 1"
+ * @pre for demo, the ass3inputfile.txt is at S3
+ * @Input input from NGRAM as lines
+ * @Output: "<word1> <word2> <LongWritable>"
  */
 public class Step1 {
     //public class Mapper<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
@@ -34,19 +34,18 @@ public class Step1 {
             String input = sentence.toString(); // Convert the input line to a string
 
             // Split the input line by tab characters
-            String[] parts = input.split("<tab>");
+            String[] parts = input.split("<tab>"); //#TODO I'VE WRITTEN <TAB> ON PURPOSE! CHANGE TO \t LATER WHEN USING CORPUS!
 
-            // Ensure the line is well-formed
             if (parts.length < 3) {
                 System.err.println("Malformed line: " + input);
                 //return;
             }
 
-            // Extract components from the split parts
+            // Extract components from the split parts (There 4, the forth one we don't care)
             String headWord = parts[0];
             String syntacticNgram = parts[1];
             String totalCount = parts[2];
-            countOutput.set(Long.parseLong(totalCount));
+            countOutput.set(Long.parseLong(totalCount)); //amount of time appeared (took from line)
 
             // Split syntactic ngram into tokens
             String[] tokens = syntacticNgram.split(" ");
@@ -57,13 +56,13 @@ public class Step1 {
 
             Stemmer stemmer = new Stemmer();
 
-            // Process each token and extract word/pos-tag/dep-label/head-index
+            // Process each token by format word/pos-tag/dep-label/head-index
             for (String token : tokens) {
                 String[] tokenParts = token.split("/");
                 if (tokenParts.length >= 4) {
                     String word = tokenParts[0];
 
-                    // Perform stemming
+                    // Perform stemming word
                     stemmer.add(word.toCharArray(), word.length());
                     stemmer.stem();
                     word = new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
@@ -74,12 +73,11 @@ public class Step1 {
                     // Find the head word based on head-index
                     String head = (headIndex == 0) ? "root" : tokens[headIndex - 1].split("/")[0];
 
-                    // Perform stemming on the head word
+                    // Perform stemming head
                     stemmer.add(head.toCharArray(), head.length());
                     stemmer.stem();
                     head = new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
 
-                    // Store the word-to-head mapping and relationship
                     wordToHead.put(word, head);
                     wordToRel.put(word, depLabel);
                 } else {
@@ -87,13 +85,13 @@ public class Step1 {
                 }
             }
 
-            // Emit relationships between words along with the dependency labels
+            //Emit relationships between words along with the dependency labels
             for (String word : wordToHead.keySet()) {
                 String head = wordToHead.get(word);
                 String relationship = wordToRel.get(word);
 
-                // Emit a key-value pair in the format: "word → head (relationship)" and count
-                wordsOutput.set(word + " " + head + " " + relationship + " " + totalCount);
+                //Emit
+                wordsOutput.set(word + " " + head + " " + relationship);
                 context.write(wordsOutput, countOutput);
             }
         }
@@ -145,7 +143,7 @@ public class Step1 {
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/output_step1", App.s3Path)));
 
         //FROM NGRAM INPUT\OUTPUT
-        //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this, this is not relevant
+        //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this to relevant corpus
         //FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1_word_count" , App.s3Path)));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
