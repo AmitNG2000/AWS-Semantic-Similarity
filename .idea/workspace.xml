@@ -9,15 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Added all files">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Finished step1 to work with the format of NGRAM lines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737129429718</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Finished step1 to work with the format of NGRAM lines">
+      <option name="closed" value="true" />
+      <created>1737144508313</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1737144508313</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -169,6 +171,7 @@
     <MESSAGE value="And added the relevant files." />
     <MESSAGE value="In the middle of step1" />
     <MESSAGE value="Added all files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added all files" />
+    <MESSAGE value="Finished step1 to work with the format of NGRAM lines" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished step1 to work with the format of NGRAM lines" />
   </component>
 </project>
