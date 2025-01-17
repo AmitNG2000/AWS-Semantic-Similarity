@@ -43,7 +43,7 @@ public class Step1A {
     public static void main(String[] args) throws Exception {
         System.out.println("[DEBUG] STEP 1A started!");
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Step 1A: Extract Dependency Types");
+        Job job = Job.getInstance(conf, "Step 1A");
 
         job.setJarByClass(Step1A.class);
         job.setMapperClass(MapperClass.class);
@@ -57,7 +57,7 @@ public class Step1A {
         FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
         // Output: Unique dependency types
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1A_dependencies", App.s3Path)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1A", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }

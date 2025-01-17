@@ -2,17 +2,32 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="LocalApp:jar" />
+      <artifact name="Step1" />
+      <artifact name="Step1A" />
+      <artifact name="Step2" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Update readme">
+    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Trying to think of next steps">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Step1A.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Step2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/LocalApp_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Step1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UtilsFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/equations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Step1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Step1A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1A.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Step2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/equations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Equations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Step1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,19 +56,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 1/GITHUBASS1/Assignment1&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.106269896&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.notifications&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 3/ASS3 GITHUB/METAS/Step2",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.106269896",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="App" />
@@ -170,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737144795452</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Trying to think of next steps">
+      <option name="closed" value="true" />
+      <created>1737148140500</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1737148140500</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -182,6 +205,7 @@
     <MESSAGE value="Added all files" />
     <MESSAGE value="Finished step1 to work with the format of NGRAM lines" />
     <MESSAGE value="Update readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update readme" />
+    <MESSAGE value="Trying to think of next steps" />
+    <option name="LAST_COMMIT_MESSAGE" value="Trying to think of next steps" />
   </component>
 </project>

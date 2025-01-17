@@ -140,7 +140,7 @@ public class Step1 {
         job.setInputFormatClass(TextInputFormat.class);
         //For demo testing
         FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/output_step1", App.s3Path)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
         //FROM NGRAM INPUT\OUTPUT
         //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this to relevant corpus

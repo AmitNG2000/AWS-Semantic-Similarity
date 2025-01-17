@@ -11,6 +11,8 @@ Names:
 <br/>
 נווה וזדיאס הדס - 209169424
 
+added a file to explain you what i did kinda: [Logic PDF](resources/היגיון%20עבודה.pdf) <br/>
+
 ## How to run
 - Add step1.jar to jars/
 - Make sure you deleted the log/ and output_step1/ folders from s3 bucketassignment3

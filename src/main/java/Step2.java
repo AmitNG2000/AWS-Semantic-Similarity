@@ -57,11 +57,11 @@ public class Step2 {
 
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            // Initialize vector with zeros
-            int[] vector = new int[dependencyTypes.size()];
-            Map<String, Integer> dependencyCounts = new HashMap<>();
+            // Step 1: Initialize a vector with zeros
+            int[] vector = new int[dependencyTypes.size()]; // Fixed-size vector based on dependency types
 
-            // Aggregate dependency counts for the word pair
+            // Step 2: Aggregate counts for each dependency type
+            Map<String, Integer> dependencyCounts = new HashMap<>();
             for (Text value : values) {
                 String[] depCount = value.toString().split(":");
                 String dependency = depCount[0];
@@ -69,56 +69,28 @@ public class Step2 {
                 dependencyCounts.put(dependency, dependencyCounts.getOrDefault(dependency, 0) + count);
             }
 
-            // Fill the vector with counts based on dependency types
+            // Step 3: Fill the vector
             for (int i = 0; i < dependencyTypes.size(); i++) {
-                String depType = dependencyTypes.get(i);
-                vector[i] = dependencyCounts.getOrDefault(depType, 0);
+                String depType = dependencyTypes.get(i); // Dependency type for this position
+                vector[i] = dependencyCounts.getOrDefault(depType, 0); // Fill with count or 0 if not present
             }
 
-            // Compute similarity measures
-            double l1 = computeL1(vector);
-            double l2 = computeL2(vector);
-            double cosine = computeCosine(vector);
-
-            // Emit word pair and similarity measures
-            String result = String.format("L1:%.2f, L2:%.2f, Cosine:%.2f", l1, l2, cosine);
-            context.write(key, new Text(result));
-        }
-
-        private double computeL1(int[] vector) {
-            double sum = 0.0;
-            for (int val : vector) {
-                sum += Math.abs(val);
+            StringBuilder result = new StringBuilder();
+            for (int i : vector) {
+                result.append(i).append(" ");
             }
-            return sum;
-        }
-
-        private double computeL2(int[] vector) {
-            double sum = 0.0;
-            for (int val : vector) {
-                sum += val * val;
-            }
-            return Math.sqrt(sum);
-        }
-
-        private double computeCosine(int[] vector) {
-            double dotProduct = 0.0, norm = 0.0;
-            for (int val : vector) {
-                dotProduct += val * val;
-                norm += val * val;
-            }
-            norm = Math.sqrt(norm);
-            return dotProduct / (norm * norm);
+            context.write(key, new Text(result.toString()));
         }
     }
 
-    public static void main(String[] args) throws Exception {
+
+        public static void main(String[] args) throws Exception {
         System.out.println("[DEBUG] STEP 2 started!");
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
         // Job setup
-        Job job = Job.getInstance(conf, "Step 2: Vector Construction and Similarity");
+        Job job = Job.getInstance(conf, "Step 2");
         job.setJarByClass(Step2.class);
         job.setMapperClass(MapperClass.class);
         job.setPartitionerClass(PartitionerClass.class);
@@ -129,11 +101,11 @@ public class Step2 {
         job.setOutputValueClass(Text.class);
 
         // Add dependency types file to the distributed cache
-        job.addCacheFile(new Path(String.format("%s/dependency_types.txt", App.s3Path)).toUri());
+        job.addCacheFile(new Path(String.format("%s/outputs/output_step1A/part-r-00000", App.s3Path)).toUri());
 
         // Input and output paths
         FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2_similarity", App.s3Path)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
