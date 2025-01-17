@@ -19,69 +19,85 @@ public class App {
     public static AmazonEC2 ec2;
     public static AmazonElasticMapReduce emr;
 
-    public static int numberOfInstances = 2;  //Do Not Exceed The Limit!
-
-
+    public static int numberOfInstances = 2;
     private static final String bucketName = "bucketassignment3";
     public static final String s3Path = String.format("s3://%s", bucketName);
 
-    /**
-     * Executes the job flow.
-     * @pre AWS credentials are configured
-     * @pre an S3 bucket exists with the specified name at <bucketName>
-     * @pre the steps' JAR files are located in <bucketName>/jars with names: Step1, Step2 ...
-     * @pre For Demo: arbix file is in the <bucketName>.
-     */
-    public static void main(String[]args){
+    public static void main(String[] args) {
         credentialsProvider = new ProfileCredentialsProvider();
-        System.out.println("[INFO] Connecting to aws");
+        System.out.println("[INFO] Connecting to AWS");
+
         ec2 = AmazonEC2ClientBuilder.standard()
                 .withCredentials(credentialsProvider)
                 .withRegion("us-east-1")
                 .build();
+
         S3 = AmazonS3ClientBuilder.standard()
                 .withCredentials(credentialsProvider)
                 .withRegion("us-east-1")
                 .build();
+
         emr = AmazonElasticMapReduceClientBuilder.standard()
                 .withCredentials(credentialsProvider)
                 .withRegion("us-east-1")
                 .build();
-        System.out.println( "list cluster");
-        System.out.println( emr.listClusters());
 
-        // Step 1
-        HadoopJarStepConfig step1 = new HadoopJarStepConfig()
-                .withJar(String.format("%s/jars/Step1.jar" , s3Path))
-                .withMainClass("Step1WordCount");
+        System.out.println("List cluster: " + emr.listClusters());
 
-        StepConfig stepConfig1 = new StepConfig()
-                .withName("Step1")
-                .withHadoopJarStep(step1)
-                .withActionOnFailure("TERMINATE_JOB_FLOW");
+        try {
+            // Step 1: Word Count
+            HadoopJarStepConfig step1 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step1.jar", s3Path))
+                    .withMainClass("Step1WordCount");
 
-        //Job flow
-        JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
-                .withInstanceCount(numberOfInstances)
-                .withMasterInstanceType(InstanceType.M4Large.toString())
-                .withSlaveInstanceType(InstanceType.M4Large.toString())
-                .withHadoopVersion("2.9.2")
-                .withEc2KeyName("vockey")
-                .withKeepJobFlowAliveWhenNoSteps(false)
-                .withPlacement(new PlacementType("us-east-1a"));
+            StepConfig stepConfig1 = new StepConfig()
+                    .withName("Step1")
+                    .withHadoopJarStep(step1)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
 
-        System.out.println("Set steps");
-        RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
-                .withName("Map reduce project")
-                .withInstances(instances)
-                .withSteps(stepConfig1)
-                .withLogUri(String.format("%s/logs/" , s3Path))
-                .withServiceRole("EMR_DefaultRole")
-                .withJobFlowRole("EMR_EC2_DefaultRole")
-                .withReleaseLabel("emr-5.11.0");
+            // Step 1A: Extract Dependency Types
+            HadoopJarStepConfig step1A = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step1A.jar", s3Path))
+                    .withMainClass("Step1ADependencyTypes");
 
-        RunJobFlowResult runJobFlowResult = emr.runJobFlow(runFlowRequest);
-        String jobFlowId = runJobFlowResult.getJobFlowId();
-        System.out.println("Ran job flow with id: " + jobFlowId);
+            StepConfig stepConfig1A = new StepConfig()
+                    .withName("Step1A")
+                    .withHadoopJarStep(step1A)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
+
+            // Step 2: Vector Construction and Similarity
+            HadoopJarStepConfig step2 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step2.jar", s3Path))
+                    .withMainClass("Step2Similarity");
+
+            StepConfig stepConfig2 = new StepConfig()
+                    .withName("Step2")
+                    .withHadoopJarStep(step2)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
+
+            // Configure job flow
+            JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
+                    .withInstanceCount(numberOfInstances)
+                    .withMasterInstanceType(InstanceType.M4Large.toString())
+                    .withSlaveInstanceType(InstanceType.M4Large.toString())
+                    .withKeepJobFlowAliveWhenNoSteps(false)
+                    .withPlacement(new PlacementType("us-east-1a"));
+
+            RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
+                    .withName("Map reduce project")
+                    .withInstances(instances)
+                    .withSteps(Arrays.asList(stepConfig1, stepConfig1A, stepConfig2))
+                    .withLogUri(String.format("%s/logs/", s3Path))
+                    .withServiceRole("EMR_DefaultRole")
+                    .withJobFlowRole("EMR_EC2_DefaultRole")
+                    .withReleaseLabel("emr-5.11.0");
+
+            RunJobFlowResult runJobFlowResult = emr.runJobFlow(runFlowRequest);
+            System.out.println("Ran job flow with id: " + runJobFlowResult.getJobFlowId());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("[ERROR] Failed to configure and run the job flow.");
+        }
     }
 }
