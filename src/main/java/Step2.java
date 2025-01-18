@@ -76,8 +76,11 @@ public class Step2 {
             }
 
             StringBuilder result = new StringBuilder();
-            for (int i : vector) {
-                result.append(i).append(" ");
+            for (int i = 0; i < vector.length; i++) {
+                result.append(vector[i]);
+                if (i < vector.length - 1) { // Only add a space if it's not the last element
+                    result.append(" ");
+                }
             }
             context.write(key, new Text(result.toString()));
         }

@@ -2,32 +2,19 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="Step1" />
-      <artifact name="Step1A" />
-      <artifact name="Step2" />
+      <artifact name="Step3" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="Trying to think of next steps">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Step1A.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Step2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/LocalApp_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Step1.xml" afterDir="false" />
+    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Step3.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1A.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Step2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/equations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Equations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$MapperClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$PartitionerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1$ReducerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/UtilsFunctions.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +49,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 3/ASS3 GITHUB/METAS/Step2",
+    "last_opened_file_path": "C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 3/ASS3 GITHUB/METAS/Step3",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.106269896",
@@ -193,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737148140500</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations.">
+      <option name="closed" value="true" />
+      <created>1737155001090</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1737155001090</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -206,6 +201,7 @@
     <MESSAGE value="Finished step1 to work with the format of NGRAM lines" />
     <MESSAGE value="Update readme" />
     <MESSAGE value="Trying to think of next steps" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trying to think of next steps" />
+    <MESSAGE value="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations." />
+    <option name="LAST_COMMIT_MESSAGE" value="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations." />
   </component>
 </project>
