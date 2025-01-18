@@ -1,4 +1,5 @@
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -10,6 +11,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 
 public class Step2 {
@@ -87,10 +89,22 @@ public class Step2 {
     }
 
 
-        public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println("[DEBUG] STEP 2 started!");
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
+
+        // Set S3 as the default filesystem
+        conf.set("fs.defaultFS", "s3a://bucketassignment3");
+        conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
+        conf.set("fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain");
+
+        // Check and delete output directory if it exists
+        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step2", App.s3Path)), conf);
+        Path outputPath = new Path(String.format("%s/outputs/output_step2", App.s3Path));
+        if (fs.exists(outputPath)) {
+            fs.delete(outputPath, true); // Recursively delete the output directory
+        }
 
         // Job setup
         Job job = Job.getInstance(conf, "Step 2");
