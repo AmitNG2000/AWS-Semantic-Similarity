@@ -1,225 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="Step1" />
-      <artifact name="Step1A" />
-      <artifact name="Step2" />
-      <artifact name="Step3" />
-    </artifacts-to-build>
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="- Added Step3&#10;- Updated PDF to explain my thinking process">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Step1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Step1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step1A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step1A.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Step2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Step2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/LocalApp-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/LocalApp-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step2$MapperClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step2$MapperClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step2$PartitionerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step2$PartitionerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step2$ReducerClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step2$ReducerClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Step2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Step2.class" afterDir="false" />
+    <list default="true" id="1e96b316-3468-4268-a59a-f6ea22d870ab" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
-  <component name="ProjectId" id="2rkV6neOzwTYEwM1wVxtycIgsNt" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "AmitNG2000"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://AmitNG2000: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@github.com/AmitNG2000/Distributed_Assignment_3.git",
+    "accountId": "8399dcf8-4cd3-4f52-9546-6322df0a9f64"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2roIBNxRAcmJm4fVjrR4N5iTBiz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/naveh/Desktop/עבודה במבוזרות/עבודה 3/ASS3 GITHUB/METAS/Step3",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.106269896",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications"
+    "kotlin-language-version-configured": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.App">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="App" />
-      <module name="LocalApp" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FormatNGramTemplate" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="FormatNGramTemplate" />
-      <module name="LocalApp" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main" />
-      <module name="LocalApp" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="ASS3 GITHUB" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="ASS3 GITHUB" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.App" />
-        <item itemvalue="Application.FormatNGramTemplate" />
-        <item itemvalue="Application.main" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="81db0e4e-82f3-428c-90e9-a1dc7f4e33c6" name="Changes" comment="" />
-      <created>1737102887213</created>
+      <changelist id="1e96b316-3468-4268-a59a-f6ea22d870ab" name="Changes" comment="" />
+      <created>1737218865812</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1737102887213</updated>
+      <updated>1737218865812</updated>
     </task>
-    <task id="LOCAL-00001" summary="&quot;Used ass2 as template&quot;">
-      <option name="closed" value="true" />
-      <created>1737105580665</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1737105580665</updated>
-    </task>
-    <task id="LOCAL-00002" summary="&quot;Reset readme&quot;">
-      <option name="closed" value="true" />
-      <created>1737105724028</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1737105724028</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Added in FormatNGramTemplate logic to fomrat NGRAM Line to data needed and added requested stemmer functionality.">
-      <option name="closed" value="true" />
-      <created>1737119980008</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1737119980008</updated>
-    </task>
-    <task id="LOCAL-00004" summary="And added the relevant files.">
-      <option name="closed" value="true" />
-      <created>1737120065497</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1737120065497</updated>
-    </task>
-    <task id="LOCAL-00005" summary="In the middle of step1">
-      <option name="closed" value="true" />
-      <created>1737129409124</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1737129409124</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added all files">
-      <option name="closed" value="true" />
-      <created>1737129429718</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1737129429718</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Finished step1 to work with the format of NGRAM lines">
-      <option name="closed" value="true" />
-      <created>1737144508313</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1737144508313</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Update readme">
-      <option name="closed" value="true" />
-      <created>1737144795452</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1737144795452</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Trying to think of next steps">
-      <option name="closed" value="true" />
-      <created>1737148140500</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1737148140500</updated>
-    </task>
-    <task id="LOCAL-00010" summary="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations.">
-      <option name="closed" value="true" />
-      <created>1737155001090</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1737155001090</updated>
-    </task>
-    <task id="LOCAL-00011" summary="- Added Step3&#10;- Updated PDF to explain my thinking process">
-      <option name="closed" value="true" />
-      <created>1737188039910</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1737188039910</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="&quot;Used ass2 as template&quot;" />
-    <MESSAGE value="&quot;Reset readme&quot;" />
-    <MESSAGE value="Added in FormatNGramTemplate logic to fomrat NGRAM Line to data needed and added requested stemmer functionality." />
-    <MESSAGE value="And added the relevant files." />
-    <MESSAGE value="In the middle of step1" />
-    <MESSAGE value="Added all files" />
-    <MESSAGE value="Finished step1 to work with the format of NGRAM lines" />
-    <MESSAGE value="Update readme" />
-    <MESSAGE value="Trying to think of next steps" />
-    <MESSAGE value="-Added step1A and step2&#10;-Added logic PDF&#10;-Added Equation.java with 6 relevant equations." />
-    <MESSAGE value="- Added Step3&#10;- Updated PDF to explain my thinking process" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added Step3&#10;- Updated PDF to explain my thinking process" />
   </component>
 </project>
