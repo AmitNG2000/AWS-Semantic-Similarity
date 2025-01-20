@@ -18,6 +18,7 @@ public class Step3 {
 
     public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
         @Override
+        //key = line id | value = w1 w2    dep-label-vector
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             // Input: word1,word2   vector
             String[] parts = value.toString().split("\\t");
@@ -39,13 +40,14 @@ public class Step3 {
             totalDependencies = context.getConfiguration().getDouble("totalDependencies", 1.0);
         }
 
+        // key = w1 w2 | values = dep-label-vector
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             String vectorStr = null;
 
             for (Text value : values) {
                 vectorStr = value.toString();
-            }
+            } //TODO: ?
 
             if (vectorStr == null) return;
 

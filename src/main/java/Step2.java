@@ -84,7 +84,7 @@ public class Step2 {
                     result.append(" ");
                 }
             }
-            context.write(key, new Text(result.toString()));
+            context.write(key, new Text(result.toString())); //key = w1 w2 dep-label
         }
     }
 
