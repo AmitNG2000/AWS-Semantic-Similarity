@@ -1,9 +1,117 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.0.11">
   <diagram name="‫עמוד-1‬" id="Qzcgl6yJpTfZJIMUOaM_">
-    <mxGraphModel>
+    <mxGraphModel dx="1434" dy="1907" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="KvyethoSPiIhXhesbadk-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-1" target="KvyethoSPiIhXhesbadk-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-1" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 1&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="331.21" y="-1020" width="145.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-2" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 36px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;work Flow&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-weight: 400;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="288.83" y="-1130" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-6" target="KvyethoSPiIhXhesbadk-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-6" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 4&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="331.21" y="-745" width="145.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-11" value="&lt;b&gt;Note: For simplicity, we used Text and spaces instead of arrays.&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;&lt;b&gt;&lt;span style=&quot;color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; text-wrap-mode: wrap; background-color: rgb(255, 255, 255);&quot;&gt;A&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; text-wrap-mode: wrap; background-color: rgb(255, 255, 255);&quot;&gt;lexeme&lt;/span&gt;&lt;span style=&quot;color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; text-wrap-mode: wrap; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp;is a basic abstract unit of meaning.&amp;nbsp;&lt;/span&gt;&lt;/b&gt;&lt;/font&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; text-wrap-mode: wrap; background-color: rgb(255, 255, 255);&quot;&gt;We wiil use stemmer to get a&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;text-wrap-mode: wrap; color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; background-color: rgb(255, 255, 255);&quot;&gt;lexeme&lt;/span&gt;&lt;span style=&quot;text-wrap-mode: wrap; color: rgb(32, 33, 34); font-family: sans-serif; text-align: start; background-color: rgb(255, 255, 255);&quot;&gt;&amp;nbsp; from a word&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); color: light-dark(rgb(32, 33, 34), rgb(208, 209, 210)); font-family: sans-serif; text-align: start; text-wrap-mode: wrap;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="14.959999999999994" y="-510" width="570" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-12" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 5&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="331.21" y="-640" width="145.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-13" target="KvyethoSPiIhXhesbadk-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-13" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 2&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="331.21" y="-920" width="145.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-14" target="KvyethoSPiIhXhesbadk-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-14" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 3&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="331.2" y="-830" width="145.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-19" target="KvyethoSPiIhXhesbadk-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-19" value="&lt;h1 style=&quot;text-align: start;&quot;&gt;&lt;font style=&quot;font-size: 12px; font-weight: normal;&quot; face=&quot;Helvetica&quot;&gt;Google Syntactic&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-size: 12px; font-weight: normal; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;N-grams&lt;/span&gt;&lt;/h1&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="324.5" y="180" width="156.92" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-21" target="KvyethoSPiIhXhesbadk-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-21" value="&lt;b&gt;RecordReader&lt;br&gt;&lt;/b&gt;Using&amp;nbsp;&lt;span style=&quot;background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); text-align: start;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(164, 185, 201));&quot;&gt;Sequence&lt;/font&gt;&lt;/span&gt;RecordReader&lt;div&gt;Input Type: Split&lt;/div&gt;&lt;div&gt;Output type:&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;(LongWritable&amp;nbsp;&lt;/span&gt;line_id&lt;span style=&quot;background-color: initial;&quot;&gt;, Text line)&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="208.58999999999997" y="430" width="390.5" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-22" value="&lt;b&gt;InputFormat&lt;br&gt;&lt;/b&gt;Split the file" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="316.08" y="250" width="174" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-23" value="Task Tracker (worker)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="150.70999999999998" y="370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-25" target="KvyethoSPiIhXhesbadk-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-25" value="Task Tracker (worker)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="342.96" y="370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-26" value="Task Tracker (worker)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="551.71" y="370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-27" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-22" target="KvyethoSPiIhXhesbadk-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="381.83" y="550" as="sourcePoint" />
+            <mxPoint x="431.83" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-28" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-22" target="KvyethoSPiIhXhesbadk-25">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="414.83" y="480" as="sourcePoint" />
+            <mxPoint x="308.83" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-29" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-22" target="KvyethoSPiIhXhesbadk-26">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="414.83" y="480" as="sourcePoint" />
+            <mxPoint x="514.83" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-31" target="KvyethoSPiIhXhesbadk-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-31" value="&lt;b&gt;Mapper&lt;/b&gt;&lt;div&gt;Find all lexeme-dependency-label pairs existing in the corpus.&lt;br data-end=&quot;65&quot; data-start=&quot;62&quot;&gt;&lt;br&gt;Traverse the corpus.&lt;br data-end=&quot;88&quot; data-start=&quot;85&quot;&gt;&lt;br&gt;For each word, the mapper uses a stemmer to obtain the lexeme.&lt;br data-end=&quot;153&quot; data-start=&quot;150&quot;&gt;&lt;br&gt;Emit (lexeme-dependency-label, 1).&lt;br&gt;&lt;div&gt;&amp;nbsp;&lt;div&gt;&lt;div&gt;&lt;div&gt;Input: (&lt;span style=&quot;background-color: initial;&quot;&gt;LongWritable line_id, Text line)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;Output: (Text&amp;nbsp;&lt;/span&gt;lexeme-dependency-label&lt;span style=&quot;background-color: initial;&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Long&lt;/span&gt;Writable&amp;nbsp;1&lt;span style=&quot;background-color: initial;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="158.02999999999997" y="550" width="491.62" height="215" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-33" target="KvyethoSPiIhXhesbadk-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-33" value="default &lt;b&gt;partitioner&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="222.70999999999998" y="850" width="362.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-34" value="&lt;b&gt;Reduce&lt;/b&gt;&lt;div&gt;mit the lexeme-dependency-label (ignoring the quantity).&lt;br data-end=&quot;60&quot; data-start=&quot;57&quot;&gt;&lt;br&gt;For each lexeme-dependency-label, the reducer emits it once with an index.&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;Input: (Text&amp;nbsp;&lt;/span&gt;lexeme-dependency-label&lt;span style=&quot;background-color: initial;&quot;&gt;, Long&lt;/span&gt;Writable 1&lt;span style=&quot;background-color: initial;&quot;&gt;)&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;Output: (Text&amp;nbsp;&lt;/span&gt;lexeme-dependency-label&lt;span style=&quot;background-color: initial;&quot;&gt;,&amp;nbsp;&lt;/span&gt;LongWritable&amp;nbsp;index&lt;span style=&quot;background-color: initial;&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="122.31999999999996" y="1010" width="563" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-35" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Step 1&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; font-size: 12px; font-weight: 400;&quot;&gt;Building a list of all possible pairs&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400;&quot;&gt;lexeme-dependency_label&lt;/span&gt;&lt;span style=&quot;background-color: transparent; font-size: 12px; font-weight: 400;&quot;&gt;. Next steps will use the list&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: 400;&quot;&gt;structure&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: 400;&quot;&gt;&amp;nbsp;for the&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px; font-weight: 400;&quot;&gt;co-occurrence vectors.&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Input: split from file&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Output:&amp;nbsp;&lt;span style=&quot;background-color: initial; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(Text&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;lexeme-dependency-label&lt;/span&gt;&lt;span style=&quot;background-color: initial; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;LongWritable&amp;nbsp;index&lt;/span&gt;&lt;span style=&quot;background-color: initial; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial; font-size: 12px; font-weight: normal;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="61.92" width="683.83" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-37" target="KvyethoSPiIhXhesbadk-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-37" value="default sort" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="222.69999999999996" y="920" width="362.25" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-38" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="KvyethoSPiIhXhesbadk-39" target="KvyethoSPiIhXhesbadk-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="KvyethoSPiIhXhesbadk-39" value="&lt;b&gt;Combiner &lt;/b&gt;like Reducer&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="222.70999999999998" y="790" width="362.25" height="40" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
