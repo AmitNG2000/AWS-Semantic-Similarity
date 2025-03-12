@@ -28,100 +28,74 @@ import java.util.Map;
 public class Step1 {
     //public class Mapper<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
     public static class MapperClass extends Mapper<LongWritable, Text, Text, LongWritable> {
-
-    private final LongWritable countOutput = new LongWritable(1);
+        private final static LongWritable countOutput = new LongWritable(1);
         private final Text wordsOutput = new Text(); // Reuse output Text object
-        private Stemmer stemmer = new Stemmer(); // Reuse the Stemmer instance
 
         @Override
         public void map(LongWritable key, Text sentence, Context context) throws IOException, InterruptedException {
-            String input = sentence.toString().trim(); // Convert the input line to a string and trim
+            String input = sentence.toString(); // Convert the input line to a string
 
-            // 🔹 Correctly split input using tab
-            String[] parts = input.split("\t");
+            // Split the input line by tab characters
+            String[] parts = input.split("<tab>"); //#TODO I'VE WRITTEN <TAB> ON PURPOSE! CHANGE TO \t LATER WHEN USING CORPUS!
 
             if (parts.length < 3) {
-                System.err.println("[WARN] Malformed line: " + input);
-                return; // Skip malformed lines
+                System.err.println("Malformed line: " + input);
+                //return;
             }
 
-            // 🔹 Extract components
-            String headWord = parts[0].trim(); // Extract the headword
-            String syntacticNgram = parts[1].trim(); // Extract dependency structure
-            String totalCount = parts[2].trim(); // Frequency of occurrence
+            // Extract components from the split parts (There 4, the forth one we don't care)
+            String headWord = parts[0];
+            String syntacticNgram = parts[1];
+            String totalCount = parts[2];
+            countOutput.set(Long.parseLong(totalCount)); //amount of time appeared (took from line)
 
-            // 🔹 Convert count to integer safely
-            try {
-                countOutput.set(Long.parseLong(totalCount));
-            } catch (NumberFormatException e) {
-                System.err.println("[ERROR] Invalid count: " + totalCount);
-                return;
-            }
-
-            // 🔹 Split the syntactic N-Gram into word tokens
+            // Split syntactic ngram into tokens
             String[] tokens = syntacticNgram.split(" ");
 
-            // 🔹 Maps to hold dependencies
+            // Maps to hold the relationship between words
             Map<String, String> wordToHead = new HashMap<>();
             Map<String, String> wordToRel = new HashMap<>();
 
-            // 🔹 Process each token formatted as word/pos/dep/head_index
+            Stemmer stemmer = new Stemmer();
+
+            // Process each token by format word/pos-tag/dep-label/head-index
             for (String token : tokens) {
                 String[] tokenParts = token.split("/");
+                if (tokenParts.length >= 4) {
+                    String word = tokenParts[0];
 
-                if (tokenParts.length < 4) {
-                    System.err.println("[WARN] Malformed token: " + token);
-                    continue; // Skip invalid tokens
-                }
+                    // Perform stemming word
+                    stemmer.add(word.toCharArray(), word.length());
+                    stemmer.stem();
+                    word = new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
 
-                // Extract word, dependency relation, and head index
-                String word = tokenParts[0].trim();
-                String depLabel = tokenParts[2].trim();
-                int headIndex;
+                    String depLabel = tokenParts[2];
+                    int headIndex = Integer.parseInt(tokenParts[3]);
 
-                try {
-                    headIndex = Integer.parseInt(tokenParts[3]);
-                } catch (NumberFormatException e) {
-                    System.err.println("[ERROR] Invalid head index in token: " + token);
-                    continue; // Skip malformed tokens
-                }
+                    // Find the head word based on head-index
+                    String head = (headIndex == 0) ? "root" : tokens[headIndex - 1].split("/")[0];
 
-                // 🔹 Apply stemming to the word
-                word = applyStemming(word);
+                    // Perform stemming head
+                    stemmer.add(head.toCharArray(), head.length());
+                    stemmer.stem();
+                    head = new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
 
-                // 🔹 Determine the headword
-                String head;
-                if (headIndex == 0) {
-                    head = "root"; // Root dependency case
-                } else if (headIndex - 1 < tokens.length) {
-                    head = tokens[headIndex - 1].split("/")[0]; // Extract headword
-                    head = applyStemming(head); // Apply stemming to headword
+                    wordToHead.put(word, head);
+                    wordToRel.put(word, depLabel);
                 } else {
-                    System.err.println("[WARN] Head index out of bounds: " + headIndex);
-                    continue; // Skip invalid headword references
+                    System.err.println("Malformed token: " + token);
                 }
-
-                // 🔹 Store word-to-head and dependency relation
-                wordToHead.put(word, head);
-                wordToRel.put(word, depLabel);
             }
 
-            // 🔹 Emit relationships between words, heads, and dependencies
+            //Emit relationships between words along with the dependency labels
             for (String word : wordToHead.keySet()) {
                 String head = wordToHead.get(word);
                 String relationship = wordToRel.get(word);
 
-                // Emit (word, head, relationship) → count
+                //Emit
                 wordsOutput.set(word + " " + head + " " + relationship);
                 context.write(wordsOutput, countOutput);
             }
-        }
-
-        // 🔹 Apply stemming using Stemmer.java
-        private String applyStemming(String word) {
-            stemmer.add(word.toCharArray(), word.length());
-            stemmer.stem();
-            return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
         }
     }
 
@@ -179,8 +153,7 @@ public class Step1 {
         //For demo testing input format
         job.setInputFormatClass(TextInputFormat.class);
         //For demo testing
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
-        FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
         //FROM NGRAM INPUT\OUTPUT

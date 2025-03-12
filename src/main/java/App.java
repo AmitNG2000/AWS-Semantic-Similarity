@@ -55,36 +55,6 @@ public class App {
                     .withHadoopJarStep(step1)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
 
-            // Step 1A: Extract Dependency Types
-            HadoopJarStepConfig step1A = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step1A.jar", s3Path))
-                    .withMainClass("Step1A");
-
-            StepConfig stepConfig1A = new StepConfig()
-                    .withName("Step1A")
-                    .withHadoopJarStep(step1A)
-                    .withActionOnFailure("TERMINATE_JOB_FLOW");
-
-            // Step 2: Vector Construction and Similarity
-            HadoopJarStepConfig step2 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step2.jar", s3Path))
-                    .withMainClass("Step2y");
-
-            StepConfig stepConfig2 = new StepConfig()
-                    .withName("Step2")
-                    .withHadoopJarStep(step2)
-                    .withActionOnFailure("TERMINATE_JOB_FLOW");
-
-            // Step 3
-            HadoopJarStepConfig step3 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step3.jar", s3Path))
-                    .withMainClass("Step3");
-
-            StepConfig stepConfig3 = new StepConfig()
-                    .withName("Step3")
-                    .withHadoopJarStep(step3)
-                    .withActionOnFailure("TERMINATE_JOB_FLOW");
-
             // Configure job flow
             JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
                     .withInstanceCount(numberOfInstances)
@@ -96,7 +66,7 @@ public class App {
             RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
                     .withName("Map reduce project")
                     .withInstances(instances)
-                    .withSteps(Arrays.asList(stepConfig1, stepConfig1A, stepConfig2, stepConfig3))
+                    .withSteps(Arrays.asList(stepConfig1))
                     .withLogUri(String.format("%s/logs/", s3Path))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")
