@@ -78,7 +78,7 @@ public class Step2 {
                 String depLabel = tokenParts[2].trim();
 
                 //stemming
-                String lexeme = applyStemming(word);
+                String lexeme = applyStemming(word); //#TODO Amit: Nave didn't you saied we the rellevent word is the worde with previes index?
 
                 // only lexemes from the lexeme set?
                 if (!lexemeSet.contains(lexeme)) continue;
@@ -94,7 +94,8 @@ public class Step2 {
             for (String lexeme : lexemeSet) {
                 for (String feature : featureSet) {
                     countOutput.set(0); // Emit missing features as 0
-                    context.write(new Text(lexeme + " " + feature), countOutput); //#TODO Change this output syntax? not sure what to write here
+                    context.write(new Text(lexeme + " " + feature), countOutput); //#TODO Change this output syntax? not sure what to write here. Amit: Output: (Text lexeme, Text (feature quantity)) feature=lexeme-depLable
+
                 }
             }
         }
