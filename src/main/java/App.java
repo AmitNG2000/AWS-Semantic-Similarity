@@ -57,11 +57,11 @@ public class App {
 
             // Step 1A: Extract Dependency Types
             HadoopJarStepConfig step1A = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step1A.jar", s3Path))
-                    .withMainClass("Step1A");
+                    .withJar(String.format("%s/jars/oldSteps.Step1A.jar", s3Path))
+                    .withMainClass("oldSteps.Step1A");
 
             StepConfig stepConfig1A = new StepConfig()
-                    .withName("Step1A")
+                    .withName("oldSteps.Step1A")
                     .withHadoopJarStep(step1A)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
 
@@ -77,11 +77,11 @@ public class App {
 
             // Step 3
             HadoopJarStepConfig step3 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step3.jar", s3Path))
-                    .withMainClass("Step3");
+                    .withJar(String.format("%s/jars/oldSteps.Step3.jar", s3Path))
+                    .withMainClass("oldSteps.Step3");
 
             StepConfig stepConfig3 = new StepConfig()
-                    .withName("Step3")
+                    .withName("oldSteps.Step3")
                     .withHadoopJarStep(step3)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
 
