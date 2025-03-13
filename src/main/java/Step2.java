@@ -40,7 +40,7 @@ public class Step2 {
             // Read input line from either Step 1 output OR N-Gram files
             String line = value.toString().trim();
 
-            // 🔹 Detect if the line is from Step 1 output
+            // Detect if the line is from Step 1 output
             if (line.contains("lexeme_set")) {
                 // Step 1 lexeme set format: "lexeme_set word1 word2 word3 ..."
                 String[] lexemes = line.split("\\s+"); // Split by whitespace
@@ -51,7 +51,7 @@ public class Step2 {
                 return;  // Do not process further
             }
 
-            // 🔹 Process the N-GRAM lines
+            // Process the N-GRAM lines
             String[] fields = line.split("\t | <tab>"); // Tab-separated
 
             if (fields.length < 3) return; // Ensure correct format
@@ -68,7 +68,7 @@ public class Step2 {
                 return;
             }
 
-            // 🔹 Process the entire syntactic N-Gram
+            // Process the entire syntactic N-Gram
             String[] tokens = syntacticNgram.split(" ");
 
             for (String token : tokens) {
@@ -79,10 +79,10 @@ public class Step2 {
                 String word = tokenParts[0].trim();
                 String depLabel = tokenParts[2].trim();
 
-                // 🔹 Stemming (normalize the word)
+                // Stemming (normalize the word)
                 String lexeme = applyStemming(word);  //#TODO Amit: Nave, didn't you say the relevant word is the word with the previous index?
 
-                // 🔹 Only process if lexeme is in lexemeSet (loaded from Step 1)
+                // Only process if lexeme is in lexemeSet (loaded from Step 1)
                 if (!lexemeSet.contains(lexeme)) continue;
 
                 featureSet.add(depLabel); // Store features (for each feature related to the lexeme)
