@@ -37,13 +37,21 @@ public class Step2 {
 
         @Override
         protected void setup(Context context) throws IOException {
-            // load lexeme_set from step1's output, build new empty feature_set
-            BufferedReader reader = new BufferedReader(new FileReader("lexeme_set.txt")); //#TODO change to whatever the output name is? or its JSON?
+            // ✅ Get Step 1's output path from Hadoop Distributed Cache
+            URI[] cacheFiles = context.getCacheFiles();
+            if (cacheFiles == null || cacheFiles.length == 0) {
+                throw new IOException("[ERROR] Step1 output (lexeme_set) not found!");
+            }
+
+            // ✅ Read lexeme_set from Step 1 output
+            BufferedReader reader = new BufferedReader(new FileReader(new Path(cacheFiles[0]).toString()));
             String line;
             while ((line = reader.readLine()) != null) {
-                lexemeSet.add(line.trim()); // Store lexemes
+                lexemeSet.add(line.trim()); // Store lexemes from Step 1
             }
             reader.close();
+
+            System.out.println("[DEBUG] Loaded " + lexemeSet.size() + " lexemes from Step 1.");
         }
 
         @Override
