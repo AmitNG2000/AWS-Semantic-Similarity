@@ -20,7 +20,7 @@ public class App {
     public static AmazonElasticMapReduce emr;
 
     public static int numberOfInstances = 2;
-    private static final String bucketName = "bucketassignment3";
+    protected static final String bucketName = "bucketassignment3";
     public static final String s3Path = String.format("s3://%s", bucketName);
 
     public static void main(String[] args) {
