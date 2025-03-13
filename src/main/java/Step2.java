@@ -116,7 +116,7 @@ public class Step2 {
         public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
             long sum = 0;
 
-            // ✅ Aggregate counts locally
+            // Aggregate counts locally
             for (LongWritable value : values) {
                 sum += value.get();
             }
@@ -137,7 +137,7 @@ public class Step2 {
 
         @Override
         public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
-            // ✅ Step 1: build a dictionary, (TreeMap to keep features sorted i read)
+            // Step 1: build a dictionary, (TreeMap to keep features sorted i read)
             Map<String, Long> featureCounts = new TreeMap<>();
 
             for (LongWritable value : values) {
