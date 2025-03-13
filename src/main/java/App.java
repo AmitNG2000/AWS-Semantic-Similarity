@@ -48,7 +48,7 @@ public class App {
             // Step 1: Word Count
             HadoopJarStepConfig step1 = new HadoopJarStepConfig()
                     .withJar(String.format("%s/jars/Step1.jar", s3Path))
-                    .withMainClass("Step1WordCount");
+                    .withMainClass("Step1");
 
             StepConfig stepConfig1 = new StepConfig()
                     .withName("Step1")
@@ -59,7 +59,7 @@ public class App {
             // Step 2: Vector Construction and Similarity
             HadoopJarStepConfig step2 = new HadoopJarStepConfig()
                     .withJar(String.format("%s/jars/Step2.jar", s3Path))
-                    .withMainClass("Step2y");
+                    .withMainClass("Step2");
 
             StepConfig stepConfig2 = new StepConfig()
                     .withName("Step2")
@@ -69,11 +69,11 @@ public class App {
             /*
             // Step 3
             HadoopJarStepConfig step3 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/oldSteps.Step3.jar", s3Path))
+                    .withJar(String.format("%s/jars/Step3.jar", s3Path))
                     .withMainClass("oldSteps.Step3");
 
             StepConfig stepConfig3 = new StepConfig()
-                    .withName("oldSteps.Step3")
+                    .withName("Step3")
                     .withHadoopJarStep(step3)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
              */
