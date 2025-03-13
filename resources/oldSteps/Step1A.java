@@ -1,3 +1,5 @@
+package oldSteps;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * Step1A: Extract Unique Dependency Types
+ * oldSteps.Step1A: Extract Unique Dependency Types
  *
  * @Input: Step1 output - lines of the format: "word1 word2 dependency count"
  * @Output: Unique dependency types

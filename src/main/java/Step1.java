@@ -1,6 +1,4 @@
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
-import org.apache.avro.file.FileReader;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -12,20 +10,15 @@ import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 /**
@@ -36,22 +29,18 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
  */
 public class Step1 {
 
-    private static String stemAndReturn(String word){
-
-        Stemmer stemmer = new Stemmer();
-
-        stemmer.add(word.toCharArray(), word.length());
-        stemmer.stem();
-        word = new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
-        return word;
-    }
-
-
     //public class Mapper<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
     public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
 
+        private final Stemmer stemmer = new Stemmer();
+
+        private String stemAndReturn(String word){
+            stemmer.add(word.toCharArray(), word.length());
+            stemmer.stem();
+            return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
+        }
+
         private Set<String> lexeme_set = new HashSet<>();
-        Stemmer stemmer = new Stemmer();
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
@@ -94,41 +83,22 @@ public class Step1 {
                 return;
             }
 
-            // Extract components from the split parts (There 4, the forth one we don't care)
-            //String headWord = parts[0];
             String syntacticNgram = parts[1];
             String totalCount = parts[2];
 
 
-            //TODO: check this part.
+            // Example of a syntactic-ngram:     cease/VB/ccomp/0  for/IN/prep/1  some/DT/det/4  time/NN/pobj/2 (word/POS/dependency/index)
+            String[] tokens = syntacticNgram.split(" ");  // Split by whitespace
 
-            // Split the input sentence into tokens (word/POS/dependency/index)
-            String[] tokens = syntacticNgram.split("\\s+");  // Split by whitespace (space or tab)
-
-            // We will store words by their indices and dependencies
-            String[] words = new String[tokens.length];
-            String[] dependencies = new String[tokens.length];
-            int[] indices = new int[tokens.length];
-
-            // Process each token to extract the word, dependency, and index
-            for (int i = 0; i < tokens.length; i++) {
-                String[] staticParts = tokens[i].split("/");  // Split each token into word/POS/dependency/index
-
-                if (parts.length == 4) {
-                    words[i] = staticParts[0];  // Word (e.g., "cease")
-                    dependencies[i] = staticParts[2];  // Dependency (e.g., "ccomp", "prep", "det", "pobj")
-                    indices[i] = Integer.parseInt(staticParts[3]);  // Index (e.g., "0", "1", "4", "2")
-                }
-            }
-
-            // Now pair each word with the next word based on the index
-            for (int i = 0; i < tokens.length - 1; i++) {
-                String word1 = words[i];  // Current word
-                String word2 = words[i + 1];  // Next word
-                String dep2 = dependencies[i + 1];  // Dependency of next word
-
-                // Emit (word1, word2-dependency)
-                context.write(new Text(stemAndReturn(word1)), new Text(stemAndReturn(word2) + "-" + dep2 + " " + String.valueOf(totalCount)));
+            for (String token : tokens) {
+                String[] tokenParts = token.split("/");
+                if (tokenParts.length < 3) continue;
+                String lexeme = stemAndReturn(tokenParts[0]);
+                if (!lexeme_set.contains(lexeme)) continue;
+                context.write(new Text(lexeme), new Text(totalCount));
+                String depLabel = tokenParts[2];
+                String feature = lexeme + "-" + depLabel;
+                context.write(new Text(feature), new Text(totalCount));
             }
         }
     }
@@ -136,13 +106,22 @@ public class Step1 {
 
     //Class Reducer<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
     public static class ReducerClass extends Reducer<Text,Text,Text,Text> {
+
         @Override
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException,  InterruptedException {
-            long sum = 0;
-            for (LongWritable value : values) {
-                sum += value.get();
+        public void reduce(Text key, Iterable<Text> counts, Context context) throws IOException,  InterruptedException {
+
+            //lexeme_set is a different type then the rest
+            if (key.toString().equals("lexeme_set")) {
+                for (Text set : counts){ //there is only one set
+                    context.write(key, set);
+                    return;
+                }
             }
-            context.write(key, new LongWritable(sum));
+            long sum = 0;
+            for (Text count : counts) {
+                sum += Long.parseLong(count.toString());
+            }
+            context.write(key, new Text(String.valueOf(sum)));
         }
     }
 
@@ -158,8 +137,9 @@ public class Step1 {
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
+        /*
         // Set S3 as the default filesystem
-        conf.set("fs.defaultFS", "s3a://bucketassignment3");
+        conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
         conf.set("fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain");
 
@@ -169,16 +149,18 @@ public class Step1 {
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
-        Job job = Job.getInstance(conf, "Step 1");
+        */
+
+        Job job = Job.getInstance(conf, "Step 1: calculates count(F=f) and count(L=l)");
         job.setJarByClass(Step1.class);
         job.setMapperClass(MapperClass.class);
         job.setPartitionerClass(PartitionerClass.class);
         job.setCombinerClass(ReducerClass.class);
         job.setReducerClass(ReducerClass.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(LongWritable.class);
+        job.setMapOutputValueClass(Text.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
+        job.setOutputValueClass(Text.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
         //FOR NGRAM INPUT
