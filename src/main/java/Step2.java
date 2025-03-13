@@ -164,7 +164,7 @@ public class Step2 {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("[DEBUG] STEP 1 started!");
+        System.out.println("[DEBUG] STEP 2 started!");
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
