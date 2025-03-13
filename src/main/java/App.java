@@ -10,8 +10,6 @@ import com.amazonaws.services.elasticmapreduce.AmazonElasticMapReduceClientBuild
 import com.amazonaws.services.elasticmapreduce.model.*;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class App {
     public static AWSCredentialsProvider credentialsProvider;
@@ -21,7 +19,7 @@ public class App {
 
     public static int numberOfInstances = 2;
     protected static final String bucketName = "bucketassignment3";
-    public static final String s3Path = String.format("s3://%s", bucketName);
+    public static final String s3aPath = String.format("s3a://%s", bucketName);
 
     public static void main(String[] args) {
         credentialsProvider = new ProfileCredentialsProvider();
@@ -47,7 +45,7 @@ public class App {
         try {
             // Step 1: Word Count
             HadoopJarStepConfig step1 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step1.jar", s3Path))
+                    .withJar(String.format("%s/jars/Step1.jar", s3aPath))
                     .withMainClass("Step1");
 
             StepConfig stepConfig1 = new StepConfig()
@@ -58,7 +56,7 @@ public class App {
 
             // Step 2: Vector Construction and Similarity
             HadoopJarStepConfig step2 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step2.jar", s3Path))
+                    .withJar(String.format("%s/jars/Step2.jar", s3aPath))
                     .withMainClass("Step2");
 
             StepConfig stepConfig2 = new StepConfig()
@@ -90,7 +88,7 @@ public class App {
                     .withName("Map reduce project")
                     .withInstances(instances)
                     .withSteps(Arrays.asList(stepConfig1, stepConfig2))
-                    .withLogUri(String.format("%s/logs/", s3Path))
+                    .withLogUri(String.format("%s/logs/", s3aPath))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")
                     .withReleaseLabel("emr-5.11.0");
