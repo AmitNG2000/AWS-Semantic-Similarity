@@ -137,7 +137,7 @@ public class Step1 {
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
-        /*
+
         // Set S3 as the default filesystem
         conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
@@ -149,7 +149,7 @@ public class Step1 {
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
-        */
+
 
         Job job = Job.getInstance(conf, "Step 1: calculates count(F=f) and count(L=l)");
         job.setJarByClass(Step1.class);
