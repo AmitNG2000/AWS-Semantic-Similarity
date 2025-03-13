@@ -169,13 +169,13 @@ public class Step2 {
         Configuration conf = new Configuration();
 
         // Set S3 as the default filesystem
-        conf.set("fs.defaultFS", App.s3aPath);
+        conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
         conf.set("fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain");
 
         // Check and delete output directory if it exists
-        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step1", App.s3aPath)), conf);
-        Path outputPath = new Path(String.format("%s/outputs/output_step1", App.s3aPath));
+        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step1", App.s3Path)), conf);
+        Path outputPath = new Path(String.format("%s/outputs/output_step1", App.s3Path));
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
@@ -202,7 +202,7 @@ public class Step2 {
         //#TODO make it use step1 output also? im not sure how to do it
         //Actual NGRAM
         FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3aPath)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }

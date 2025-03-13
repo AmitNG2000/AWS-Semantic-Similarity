@@ -138,13 +138,13 @@ public class Step1 {
         Configuration conf = new Configuration();
 
         // Set S3 as the default filesystem
-        conf.set("fs.defaultFS", App.s3aPath);
+        conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
         conf.set("fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain");
 
         // Check and delete output directory if it exists
-        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step1", App.s3aPath)), conf);
-        Path outputPath = new Path(String.format("%s/outputs/output_step1", App.s3aPath));
+        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step1", App.s3Path)), conf);
+        Path outputPath = new Path(String.format("%s/outputs/output_step1", App.s3Path));
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
@@ -166,8 +166,8 @@ public class Step1 {
         //For demo testing input format
         job.setInputFormatClass(TextInputFormat.class);
         //For demo testing
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3aPath)));
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3aPath)));
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
         //FROM NGRAM INPUT\OUTPUT
         //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this to relevant corpus
