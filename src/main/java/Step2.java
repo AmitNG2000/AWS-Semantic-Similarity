@@ -205,6 +205,8 @@ public class Step2 {
         //#TODO make it use step1 output also? im not sure how to do it
         //Actual NGRAM
         FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
+
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);

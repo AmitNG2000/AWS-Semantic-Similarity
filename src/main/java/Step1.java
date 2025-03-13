@@ -9,6 +9,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
@@ -164,17 +165,18 @@ public class Step1 {
         job.setOutputFormatClass(TextOutputFormat.class);
 
         //FOR NGRAM INPUT
-        //job.setInputFormatClass(SequenceFileInputFormat.class);
+        job.setInputFormatClass(SequenceFileInputFormat.class);
 
         //For demo testing input format
-        job.setInputFormatClass(TextInputFormat.class);
+        //job.setInputFormatClass(TextInputFormat.class);
+
         //For demo testing
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+        //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+
+        //Actual NGRAM input
+        FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
-        //FROM NGRAM INPUT\OUTPUT
-        //FileInputFormat.addInputPath(job, new Path("s3://datasets.elasticmapreduce/ngrams/books/20090715/heb-all/3gram/data")); #TODO change this to relevant corpus
-        //FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1_word_count" , App.s3Path)));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
