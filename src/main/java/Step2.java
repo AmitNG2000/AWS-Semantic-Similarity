@@ -27,7 +27,7 @@ import java.util.TreeMap;
  * @Output: "(lexeme, count(F=f, L=l))" using dictionary
  */
 public class Step2 {
-    public class MapperClass extends Mapper<LongWritable, Text, Text, LongWritable> {
+    public static class MapperClass extends Mapper<LongWritable, Text, Text, LongWritable> {
 
 
         private Set<String> lexemeSet = new HashSet<>(); // Stores lexemes from Step 1
@@ -36,33 +36,27 @@ public class Step2 {
         private Stemmer stemmer = new Stemmer(); // Initialize Stemmer
 
         @Override
-        protected void setup(Context context) throws IOException {
-            // ✅ Get Step 1's output path from Hadoop Distributed Cache
-            URI[] cacheFiles = context.getCacheFiles();
-            if (cacheFiles == null || cacheFiles.length == 0) {
-                throw new IOException("[ERROR] Step1 output (lexeme_set) not found!");
-            }
-
-            // ✅ Read lexeme_set from Step 1 output
-            BufferedReader reader = new BufferedReader(new FileReader(new Path(cacheFiles[0]).toString()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lexemeSet.add(line.trim()); // Store lexemes from Step 1
-            }
-            reader.close();
-
-            System.out.println("[DEBUG] Loaded " + lexemeSet.size() + " lexemes from Step 1.");
-        }
-
-        @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            //  Read from NGRAM lines
+            // Read input line from either Step 1 output OR N-Gram files
             String line = value.toString().trim();
-            String[] fields = line.split("\t"); // Tab-separated
+
+            // 🔹 Detect if the line is from Step 1 output
+            if (line.contains("lexeme_set")) {
+                // Step 1 lexeme set format: "lexeme_set word1 word2 word3 ..."
+                String[] lexemes = line.split("\\s+"); // Split by whitespace
+                for (int i = 1; i < lexemes.length; i++) {
+                    lexemeSet.add(lexemes[i].trim());
+                }
+                System.out.println("[DEBUG] Loaded " + lexemeSet.size() + " lexemes from Step 1.");
+                return;  // Do not process further
+            }
+
+            // 🔹 Process the N-GRAM lines
+            String[] fields = line.split("\t | <tab>"); // Tab-separated
 
             if (fields.length < 3) return; // Ensure correct format
 
-            String headword = fields[0].trim();  // Extract headword (we dont care? its just first word)
+            String headword = fields[0].trim();  // Extract headword (we don’t care? it's just the first word)
             String syntacticNgram = fields[1].trim(); // Extract dependency structure
             String totalCount = fields[2].trim(); // Extract frequency count
 
@@ -74,7 +68,7 @@ public class Step2 {
                 return;
             }
 
-            // Process the entire syntactic N-Gram
+            // 🔹 Process the entire syntactic N-Gram
             String[] tokens = syntacticNgram.split(" ");
 
             for (String token : tokens) {
@@ -85,19 +79,17 @@ public class Step2 {
                 String word = tokenParts[0].trim();
                 String depLabel = tokenParts[2].trim();
 
-                //stemming
+                // 🔹 Stemming (normalize the word)
+                String lexeme = applyStemming(word);  //#TODO Amit: Nave, didn't you say the relevant word is the word with the previous index?
 
-
-                String lexeme = applyStemming(word); //#TODO Amit: Nave didn't you saied we the rellevent word is the worde with previes index?
-
-
-                // only lexemes from the lexeme set?
+                // 🔹 Only process if lexeme is in lexemeSet (loaded from Step 1)
                 if (!lexemeSet.contains(lexeme)) continue;
 
                 featureSet.add(depLabel); // Store features (for each feature related to the lexeme)
                 context.write(new Text(lexeme + "-" + depLabel), countOutput); // Output: (Text lexeme, Text feature quantity)
             }
         }
+
 
         @Override
         protected void cleanup(Context context) throws IOException, InterruptedException {
@@ -145,7 +137,7 @@ public class Step2 {
         }
     }
 
-    public class ReducerClass extends Reducer<Text, LongWritable, Text, Text> {
+    public static class ReducerClass extends Reducer<Text, LongWritable, Text, Text> {
 
         @Override
         public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
@@ -185,8 +177,8 @@ public class Step2 {
         conf.set("fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain");
 
         // Check and delete output directory if it exists
-        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step1", App.s3Path)), conf);
-        Path outputPath = new Path(String.format("%s/outputs/output_step1", App.s3Path));
+        FileSystem fs = FileSystem.get(new URI(String.format("%s/outputs/output_step2", App.s3Path)), conf);
+        Path outputPath = new Path(String.format("%s/outputs/output_step2", App.s3Path));
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
@@ -202,17 +194,14 @@ public class Step2 {
         job.setOutputValueClass(LongWritable.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        //FOR NGRAM INPUT
-        //job.setInputFormatClass(SequenceFileInputFormat.class);
-
         //For demo testing input format
         job.setInputFormatClass(TextInputFormat.class);
-        //For demo testing
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
 
-        //#TODO make it use step1 output also? im not sure how to do it
+        //For demo testing
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+
         //Actual NGRAM
-        FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
         FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
 
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));

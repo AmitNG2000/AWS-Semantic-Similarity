@@ -1,3 +1,5 @@
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -46,27 +48,37 @@ public class Step1 {
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
 
-            // Declare resources
-            S3Object s3object = App.S3.getObject(App.bucketName, "word-relatedness.txt");
-            S3ObjectInputStream inputStream = s3object.getObjectContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            // Configure AWS client using instance profile credentials (recommended when
+            // running on AWS infrastructure)
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion("us-east-1") // Specify your bucket region
+                    .build();
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split("\\s+"); // Split by any whitespace (TAB or SPACE)
+            String bucketName = "bucketassignment3"; // Your S3 bucket name
+            String key = "word-relatedness.txt"; // S3 object key for the word-relatedness file
 
-                // Ensure the line has at least two words
-                if (fields.length < 2) continue;
-                String lexeme1 = stemAndReturn(fields[0].trim());
-                String lexeme2 = stemAndReturn(fields[1].trim());
+            try {
+                S3Object s3object = s3Client.getObject(bucketName, key);
+                try (S3ObjectInputStream inputStream = s3object.getObjectContent();
+                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String[] fields = line.split("\\s+"); // Split by any whitespace (TAB or SPACE)
 
-                if (!lexeme1.isEmpty()) lexeme_set.add(lexeme1);
-                if (!lexeme2.isEmpty()) lexeme_set.add(lexeme2);
-            }
+                        // Ensure the line has at least two words
+                        if (fields.length < 2) continue;
+                        String lexeme1 = stemAndReturn(fields[0].trim());
+                        String lexeme2 = stemAndReturn(fields[1].trim());
 
-            // Close resources
-            reader.close();
-            inputStream.close();
+                        if (!lexeme1.isEmpty()) lexeme_set.add(lexeme1);
+                        if (!lexeme2.isEmpty()) lexeme_set.add(lexeme2);
+                    }
+                }
+                } catch (Exception e) {
+                    // Handle exceptions properly in a production scenario
+                    System.err.println("Exception while reading golden words from S3: " + e.getMessage());
+                    e.printStackTrace();
+                }
 
             //emit the lexeme_set
             context.write(new Text("lexeme_set"), new Text(lexeme_set.toString()));
@@ -164,17 +176,15 @@ public class Step1 {
         job.setOutputValueClass(Text.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        //FOR NGRAM INPUT
-        job.setInputFormatClass(SequenceFileInputFormat.class);
 
-        //For demo testing input format
-        //job.setInputFormatClass(TextInputFormat.class);
+
+        job.setInputFormatClass(TextInputFormat.class);
 
         //For demo testing
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
 
         //Actual NGRAM input
-        FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
