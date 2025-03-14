@@ -20,7 +20,7 @@ public class App {
     public static AmazonElasticMapReduce emr;
 
     public static int numberOfInstances = 2;
-    protected static final String bucketName = "bucketassignment3";
+    protected static final String bucketName = "bucketassignment33";
     public static final String s3Path = String.format("s3://%s", bucketName);
 
     public static void main(String[] args) {
@@ -58,7 +58,7 @@ public class App {
             // Step 2
             HadoopJarStepConfig step2 = new HadoopJarStepConfig()
                     .withJar(String.format("%s/jars/Step2.jar", s3Path))
-                    .withMainClass("Step2y");
+                    .withMainClass("Step2");
 
             StepConfig stepConfig2 = new StepConfig()
                     .withName("Step2")
