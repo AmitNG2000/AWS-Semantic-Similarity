@@ -13,9 +13,6 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import java.io.IOException;
 
-import java.util.HashSet;
-import java.util.Set;
-
 
 /**
  *  calculates count(F=f) and count(L=l) using dictionaries and emit as JSON
