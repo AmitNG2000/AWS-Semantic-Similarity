@@ -5,22 +5,52 @@
 <br/>
 
 # README ASSIGNMENT 3
-## Information
-Names:
-עמית נר גאון - 211649801
-<br/>
-נווה וזדיאס הדס - 209169424
+## Credits
 
-added a file to explain you what i did kinda: [Logic PDF](resources/היגיון%20עבודה.pdf) <br/>
+Naveh Vaz Dias Hadas:  209169424 </br>
+Amit Ner-Gaon: 211649801
+
+## Intro
+This project focuses on *semantic similarity classification* using *MapReduce* and **machine learning**. Based on the paper *Comparing Measures of Semantic Similarity*, we modify the algorithm to process *Google Syntactic N-Grams* as corpus. The system builds 24-dimensional feature vectors for word pairs using syntactic dependencies and trains a classifier to distinguish similar from non-similar words. The model is evaluated using *WEKA* tool.
 
 ## How to run
-- Add step1.jar to jars/
-- Make sure you deleted the log/ and output_step1/ folders from s3 bucketassignment3
-- if changed ass3inputtemp.txt dont forget to update it in s3
-- Run Step (like job 2)
-- 
-## Extra info for now
+- Configure your AWS credentials.  
+- Create a bucket with `App.bucketname` and upload the steps' JAR files to `bucket/jars/`.  
+- In the S3 bucket, delete the `log/` and `outputs/` folders if they exist.  
+- Upload `gold-standard.txt` to the S3 bucket. Also, update `s3inputtemp.txt` in S3.
+- Run `App`
+
+## Extra Info
 - Our new bucket for this assignment is called "bucketassignment3"
-- For now, we use <tab> as text and not \t in the input file because for some reason it doesn't want to work with \t from textfile
-- Command to read the output file directly to the terminal without downloading it:
-aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 -
+- To read the output file directly from an S3 bucket without downloading it to your local system, you can use the following command:
+
+```java
+aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
+```
+
+## Steps
+* **Step 1**: calculates count(F=f) and count(L=l).
+* **Step 2**: calculates for each lexeme count(F=f, L=l).
+* **Step 3**: For each lexeme, build co-occurrence vectors using the output from Step 2.
+ </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Using Step 1's output to measure association with the context and create four vectors, one for each association method.
+* **Step 4**: For each pair, create a 24-dimensional vector that measures vector similarity (distance) using six distance measure methods.
+* **Step 5:** (Not part of the MapReduce pattern) Using Weka to assess the model's accuracy.
+
+## Memory Assumptions
+As instructed, we assume that the word pairs in the gold-standard dataset can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a mapper-side join with the data from step 1's output.  
+
+## Resources
+[Comparing Measures of Semantic Similarity](https://ieeexplore.ieee.org/document/4588492) </br>
+[Google Syntactic N-Grams](https://commondatastorage.googleapis.com/books/syntactic-ngrams/index.html)  </br>
+[WEKA](https://ml.cms.waikato.ac.nz/weka/)
+[Porter Stemmer](https://vijinimallawaarachchi.com/2017/05/09/porter-stemming-algorithm/)
+
+
+
+
+
+
+
+
+
+
