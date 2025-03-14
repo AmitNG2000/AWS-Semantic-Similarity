@@ -45,10 +45,21 @@ public class App {
         System.out.println("List cluster: " + emr.listClusters());
 
         try {
+
+            // Step 0
+            HadoopJarStepConfig step0 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step0.jar", s3Path))
+                    .withMainClass("Step0");
+
+            StepConfig stepConfig0 = new StepConfig()
+                    .withName("Step0")
+                    .withHadoopJarStep(step0)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
+
             // Step 1
             HadoopJarStepConfig step1 = new HadoopJarStepConfig()
                     .withJar(String.format("%s/jars/Step1.jar", s3Path))
-                    .withMainClass("Step1WordCount");
+                    .withMainClass("Step1");
 
             StepConfig stepConfig1 = new StepConfig()
                     .withName("Step1")
@@ -76,7 +87,7 @@ public class App {
             RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
                     .withName("Map reduce project")
                     .withInstances(instances)
-                    .withSteps(Arrays.asList(stepConfig1, stepConfig2))
+                    .withSteps(Arrays.asList(stepConfig0, stepConfig1, stepConfig2))
                     .withLogUri(String.format("%s/logs/", s3Path))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")
