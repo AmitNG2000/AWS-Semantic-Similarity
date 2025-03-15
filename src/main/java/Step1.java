@@ -2,7 +2,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -11,7 +10,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
@@ -19,10 +17,10 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.google.gson.Gson;
 
 /**
  *  calculates count(F=f) and count(L=l) using dictionaries and emit as JSON
@@ -33,71 +31,30 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 public class Step1 {
 
     //public class Mapper<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
-    public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
+    public static class MapperClass extends Mapper<LongWritable, Text, Text, LongWritable> {
 
-        private final Stemmer stemmer = new Stemmer();
-
-        private String stemAndReturn(String word){
-            stemmer.add(word.toCharArray(), word.length());
-            stemmer.stem();
-            return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
-        }
-
-        private Set<String> lexeme_set = new HashSet<>();
+        private Set<String> lexemeSet = new HashSet<>();
 
         @Override
-        protected void setup(Context context) throws IOException, InterruptedException {
-
-            // Configure AWS client using instance profile credentials (recommended when
-            // running on AWS infrastructure)
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withRegion("us-east-1") // Specify your bucket region
-                    .build();
-
-            String bucketName = "bucketassignment3"; // Your S3 bucket name
-            String key = "word-relatedness.txt"; // S3 object key for the word-relatedness file
-
-            try {
-                S3Object s3object = s3Client.getObject(bucketName, key);
-                try (S3ObjectInputStream inputStream = s3object.getObjectContent();
-                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        String[] fields = line.split("\\s+"); // Split by any whitespace (TAB or SPACE)
-
-                        // Ensure the line has at least two words
-                        if (fields.length < 2) continue;
-                        String lexeme1 = stemAndReturn(fields[0].trim());
-                        String lexeme2 = stemAndReturn(fields[1].trim());
-
-                        if (!lexeme1.isEmpty()) lexeme_set.add(lexeme1);
-                        if (!lexeme2.isEmpty()) lexeme_set.add(lexeme2);
-                    }
-                }
-                } catch (Exception e) {
-                    // Handle exceptions properly in a production scenario
-                    System.err.println("Exception while reading golden words from S3: " + e.getMessage());
-                    e.printStackTrace();
-                }
-
-            //emit the lexeme_set
-            context.write(new Text("lexeme_set"), new Text(lexeme_set.toString()));
+        protected void setup(Context context) throws IOException {
+            lexemeSet = Utils.retrieveLexemeSet();
         }
 
         @Override
         public void map(LongWritable line_Id, Text line, Context context) throws IOException, InterruptedException {
-            String input = line.toString();
-            String[] parts = input.split("\t | <tab>");
+            String line_str = line.toString();
+            System.out.println("[DEBUG] Line" + line_str);
+            String[] parts = line_str.split("\\t | <tab>");
 
             //cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
 
             if (parts.length < 3) {
-                System.err.println("Malformed line: " + input);
+                System.err.println("Malformed line: " + line_str);
                 return;
             }
 
             String syntacticNgram = parts[1];
-            String totalCount = parts[2];
+            LongWritable totalCount = new LongWritable(Long.parseLong(parts[2]));
 
 
             // Example of a syntactic-ngram:     cease/VB/ccomp/0  for/IN/prep/1  some/DT/det/4  time/NN/pobj/2 (word/POS/dependency/index)
@@ -106,51 +63,46 @@ public class Step1 {
             for (String token : tokens) {
                 String[] tokenParts = token.split("/");
                 if (tokenParts.length < 3) continue;
-                String lexeme = stemAndReturn(tokenParts[0]);
-                if (!lexeme_set.contains(lexeme)) continue;
-                context.write(new Text(lexeme), new Text(totalCount));
+                String lexeme = Utils.stemAndReturn(tokenParts[0]);
+                if (!lexemeSet.contains(lexeme)) continue;
+                context.write(new Text(lexeme), totalCount);
                 String depLabel = tokenParts[2];
                 String feature = lexeme + "-" + depLabel;
-                context.write(new Text(feature), new Text(totalCount));
+                context.write(new Text(feature), totalCount);
             }
         }
     }
 
 
     //Class Reducer<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
-    public static class ReducerClass extends Reducer<Text,Text,Text,Text> {
+    public static class ReducerClass extends Reducer<Text,LongWritable,Text,LongWritable> {
 
         @Override
-        public void reduce(Text key, Iterable<Text> counts, Context context) throws IOException,  InterruptedException {
+        public void reduce(Text key, Iterable<LongWritable> counts, Context context) throws IOException,  InterruptedException {
 
-            //lexeme_set is a different type then the rest
-            if (key.toString().equals("lexeme_set")) {
-                for (Text set : counts){ //there is only one set
-                    context.write(key, set);
-                    return;
-                }
-            }
             long sum = 0;
-            for (Text count : counts) {
-                sum += Long.parseLong(count.toString());
+            for (LongWritable count : counts) {
+                sum += count.get();
             }
-            context.write(key, new Text(String.valueOf(sum)));
+            context.write(key, new LongWritable(sum));
         }
     }
 
+    /*
     public static class PartitionerClass extends Partitioner<Text, Text> {
         @Override
         public int getPartition(Text key, Text value, int numPartitions) {
             return key.hashCode() % numPartitions;
         }
     }
+     */
 
     public static void main(String[] args) throws Exception {
         System.out.println("[DEBUG] STEP 1 started!");
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
-
+        /*
         // Set S3 as the default filesystem
         conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
@@ -162,22 +114,22 @@ public class Step1 {
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
+        */
 
 
         Job job = Job.getInstance(conf, "Step 1: calculates count(F=f) and count(L=l)");
         job.setJarByClass(Step1.class);
         job.setMapperClass(MapperClass.class);
-        job.setPartitionerClass(PartitionerClass.class);
+        //job.setPartitionerClass(PartitionerClass.class);
         job.setCombinerClass(ReducerClass.class);
         job.setReducerClass(ReducerClass.class);
+
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(Text.class);
+        job.setMapOutputValueClass(LongWritable.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        job.setOutputValueClass(LongWritable.class);
+
         job.setOutputFormatClass(TextOutputFormat.class);
-
-
-
         job.setInputFormatClass(TextInputFormat.class);
 
         //For demo testing
