@@ -60,10 +60,11 @@ public class Step2 {
 
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            // Read input line from either Step 1 output OR N-Gram files
+
             String line = value.toString().trim();
 
             /*
+            // Read input line from either Step 1 output OR N-Gram files
             // Detect if the line is from Step 1 output
             if (line.contains("lexeme_set")) {
                 // Step 1 lexeme set format: "lexeme_set word1 word2 word3 ..."
@@ -81,7 +82,7 @@ public class Step2 {
 
             String[] fields = line.split("\t"); // Tab-separated
 
-            if (fields.length < 3) return; // Ensure correct format
+            // if (fields.length < 3) return; // Ensure correct format //TODO: un-comment?
 
             //String headword = fields[0].trim();  // Extract headword (we don’t care? it's just the first word)
             String syntacticNgram = fields[1].trim(); // Extract dependency structure
@@ -94,13 +95,13 @@ public class Step2 {
                 //Token Format: cease/VB/ccomp/0
                 String[] tokenParts = token.split("/");
 
-                if (tokenParts.length < 3) continue; // Skip malformed tokens
+                //if (tokenParts.length < 3) continue; // Skip malformed tokens //TODO: un-comment?
 
                 String word = tokenParts[0].trim();
                 String depLabel = tokenParts[2].trim();
 
                 // Stemming (normalize the word)
-                if (word.isEmpty()) continue;
+                // if (word.isEmpty()) continue; //TODO: un-comment?
                 String lexeme = Utils.stemAndReturn(word);
 
                 // Only process if lexeme is in lexemeSet

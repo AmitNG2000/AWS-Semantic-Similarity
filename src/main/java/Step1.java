@@ -30,6 +30,7 @@ public class Step1 {
         @Override
         protected void setup(Context context) throws IOException {
             lexemeSet = Utils.retrieveLexemeSet();
+            System.out.println(lexemeSet);
         }
 
         @Override
@@ -40,10 +41,13 @@ public class Step1 {
 
             //cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
 
+            /*
             if (parts.length < 3) {
                 System.err.println("Malformed line: " + line_str);
                 return;
             }
+
+             */
 
             String syntacticNgram = parts[1];
             LongWritable totalCount = new LongWritable(Long.parseLong(parts[2]));
@@ -54,7 +58,7 @@ public class Step1 {
 
             for (String token : tokens) {
                 String[] tokenParts = token.split("/");
-                if (tokenParts.length < 3) continue;
+                //if (tokenParts.length < 3) continue; //TODO: un-comment?
                 String lexeme = Utils.stemAndReturn(tokenParts[0]);
                 //if (!lexemeSet.contains(lexeme)) continue; //TODO: un-comment after demo
                 context.write(new Text(lexeme), totalCount);

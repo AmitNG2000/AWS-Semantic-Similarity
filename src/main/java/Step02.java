@@ -28,15 +28,18 @@ public class Step02 {
         @Override
         public void map(LongWritable line_Id, Text line, Context context) throws IOException, InterruptedException {
 
-            String[] fields = line.toString().split("\\s+"); // Split by any whitespace (TAB or SPACE)
+            String[] fields = line.toString().split("\t"); // Tab-separated
 
-            if (fields.length < 3) return; // Skip malformed lines
+            String syntacticNgram = fields[1].trim();
 
-            // Apply stemming and trim whitespace
-            String depLabel = Utils.stemAndReturn(fields[2]).trim();
+            // Process the entire syntactic N-Gram
+            String[] tokens = syntacticNgram.split(" ");
 
-            //emit the lexemes
-            if (!depLabel.isEmpty()){
+            for (String token : tokens) {
+                //Token Format: cease/VB/ccomp/0
+                String[] tokenParts = token.split("/");
+                String depLabel = tokenParts[2].trim();
+
                 context.write(new Text(depLabel), new Text());
             }
         }
@@ -95,7 +98,11 @@ public class Step02 {
         job.setOutputFormatClass(TextOutputFormat.class);
 
 
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/word-relatedness.txt" , App.s3Path)));
+        //For demo testing
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+
+        //Actual NGRAM
+        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
 
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step02", App.s3Path)));
 

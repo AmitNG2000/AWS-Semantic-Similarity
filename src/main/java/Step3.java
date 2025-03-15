@@ -40,7 +40,7 @@ public class Step3 {
             String vector = LineFields[1];
 
 
-            //context.write(new Text(lexeme), new Text(vectores);
+            //context.write(new Text(lexeme), new Text(vectores); //TODO:
 
         }
 
