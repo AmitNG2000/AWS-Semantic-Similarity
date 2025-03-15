@@ -4,7 +4,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Partitioner;
+
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -20,36 +20,24 @@ import java.io.IOException;
  * @Input word-relatedness.txt
  * @Output: a list off all lexeme in word-relatedness.txt
  */
-public class Step0 {
+public class Step02 {
 
     //public class Mapper<KEYIN,VALUEIN,KEYOUT,VALUEOUT>
     public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
-
-        private final Stemmer stemmer = new Stemmer();
-
-        private String stemAndReturn(String word){
-            stemmer.add(word.toCharArray(), word.length());
-            stemmer.stem();
-            return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
-        }
 
         @Override
         public void map(LongWritable line_Id, Text line, Context context) throws IOException, InterruptedException {
 
             String[] fields = line.toString().split("\\s+"); // Split by any whitespace (TAB or SPACE)
 
-            if (fields.length < 2) return; // Skip malformed lines
+            if (fields.length < 3) return; // Skip malformed lines
 
             // Apply stemming and trim whitespace
-            String lexeme1 = stemAndReturn(fields[0]).trim();
-            String lexeme2 = stemAndReturn(fields[1]).trim();
+            String depLabel = Utils.stemAndReturn(fields[2]).trim();
 
             //emit the lexemes
-            if (!lexeme1.isEmpty()){
-                context.write(new Text(lexeme1), new Text());
-            }
-            if (!lexeme2.isEmpty()){
-                context.write(new Text(lexeme2), new Text());
+            if (!depLabel.isEmpty()){
+                context.write(new Text(depLabel), new Text());
             }
         }
     }
@@ -59,8 +47,8 @@ public class Step0 {
     public static class ReducerClass extends Reducer<Text,Text,Text,Text> {
 
         @Override
-        public void reduce(Text lexeme, Iterable<Text> counts, Context context) throws IOException,  InterruptedException {
-            context.write(lexeme, new Text()); //don't care about the counts
+        public void reduce(Text depLabel, Iterable<Text> counts, Context context) throws IOException,  InterruptedException {
+            context.write(depLabel, new Text()); //don't care about the counts
         }
     }
 
@@ -74,7 +62,7 @@ public class Step0 {
      */
 
     public static void main(String[] args) throws Exception {
-        System.out.println("[DEBUG] STEP 0 started!");
+        System.out.println("[DEBUG] STEP 02 started!");
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
@@ -93,8 +81,8 @@ public class Step0 {
         */
 
 
-        Job job = Job.getInstance(conf, "Step 0: creates lexemeSet");
-        job.setJarByClass(Step0.class);
+        Job job = Job.getInstance(conf, "Step 02: creates depLabelSet");
+        job.setJarByClass(Step02.class);
         job.setMapperClass(MapperClass.class);
         //job.setPartitionerClass(PartitionerClass.class);
         job.setCombinerClass(ReducerClass.class);
@@ -109,7 +97,7 @@ public class Step0 {
 
         FileInputFormat.addInputPath(job, new Path(String.format("%s/word-relatedness.txt" , App.s3Path)));
 
-        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step0", App.s3Path)));
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step02", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }

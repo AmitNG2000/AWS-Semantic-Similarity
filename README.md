@@ -29,9 +29,10 @@ aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
 ```
 
 ## Steps
-* **Step 0**: create a list with the lexemes in the `word-relatedness.txt`.
+* **Step 01**: create a set with the all lexemes in `word-relatedness.txt`.
+* **Step 02**: create a set with the all dependencies label in `word-relatedness.txt`.
 * **Step 1**: calculates count(F=f) and count(L=l). Output: (Text feature/lexeme, LongWritable quantity).
-* **Step 2**: calculates for each lexeme vector of counts(F=f,L=l). Output: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
+* **Step 2**: for each lexeme calculates a vector of counts(F=f,L=l). Output: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
 * **Step 3**: measure association with the context and create four vectors, one for each association method. Output: (Text lexeme, Text v1 <tab> v2 <tab> v3 <tab> v4)
 * **Step 4**: for each pair, create a 24-dimensional vector that measures vector similarity (distance) using six distance measure methods. Output: (Text lexeme, Text paces_separated_vector)
 * **Step 5:** (Not part of the MapReduce pattern) Using Weka to assess the model's accuracy.

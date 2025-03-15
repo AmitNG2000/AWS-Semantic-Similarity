@@ -1,45 +1,69 @@
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.net.URI;
-import java.util.TreeMap;
+import java.util.*;
 
 
 /**
  *  Calculates (lexeme, count(F=f, L=l)) using dictionary and emi
- * @Input input from NGRAM as lines and step1 output?
- * @Output: "(lexeme, count(F=f, L=l))" using dictionary
+ * @Input Google NGRAM
+ * Output: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
  */
 public class Step2 {
-    public static class MapperClass extends Mapper<LongWritable, Text, Text, LongWritable> {
+    public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
 
 
         private Set<String> lexemeSet = new HashSet<>(); // Stores lexemes from Step 1
-        private Set<String> featureSet = new HashSet<>(); // Stores all seen features
-        private final LongWritable countOutput = new LongWritable(0);
-        private Stemmer stemmer = new Stemmer(); // Initialize Stemmer
+        private Set<String> depLableSet = new HashSet<>(); // Stores all seen features
+
+        @Override
+        protected void setup(Context context) throws IOException {
+
+            lexemeSet = Utils.retrieveLexemeSet();
+            depLableSet = Utils.retrieveDepLabelSet();
+
+            /*
+            Gson gson = new Gson();
+
+            // Configure AWS client using instance profile credentials (recommended when
+            // running on AWS infrastructure)
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion("us-east-1") // Specify your bucket region
+                    .build();
+
+            String outputBucketName = String.format("%s/outputs/output_step1", App.s3Path);
+            String key = "part-r-00000"; // S3 object key for the word-relatedness file
+
+            S3Object s3object = s3Client.getObject(outputBucketName, key);
+            S3ObjectInputStream inputStream = s3object.getObjectContent();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] lineParts = line.split("\t");
+                if (lineParts[0].equals("lexeme_set")) {
+                    Set<String> lexemeSet = new HashSet<>(Arrays.asList(gson.fromJson(lineParts[1], String[].class)));
+                }
+            }
+             */
+        }
 
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             // Read input line from either Step 1 output OR N-Gram files
             String line = value.toString().trim();
 
+            /*
             // Detect if the line is from Step 1 output
             if (line.contains("lexeme_set")) {
                 // Step 1 lexeme set format: "lexeme_set word1 word2 word3 ..."
@@ -50,68 +74,71 @@ public class Step2 {
                 System.out.println("[DEBUG] Loaded " + lexemeSet.size() + " lexemes from Step 1.");
                 return;  // Do not process further
             }
+            */
 
             // Process the N-GRAM lines
-            String[] fields = line.split("\t | <tab>"); // Tab-separated
+            //Format: cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
+
+            String[] fields = line.split("\t"); // Tab-separated
 
             if (fields.length < 3) return; // Ensure correct format
 
-            String headword = fields[0].trim();  // Extract headword (we don’t care? it's just the first word)
+            //String headword = fields[0].trim();  // Extract headword (we don’t care? it's just the first word)
             String syntacticNgram = fields[1].trim(); // Extract dependency structure
             String totalCount = fields[2].trim(); // Extract frequency count
-
-            // Convert count
-            try {
-                countOutput.set(Long.parseLong(totalCount));
-            } catch (NumberFormatException e) {
-                System.err.println("[ERROR] Invalid count: " + totalCount);
-                return;
-            }
 
             // Process the entire syntactic N-Gram
             String[] tokens = syntacticNgram.split(" ");
 
             for (String token : tokens) {
+                //Token Format: cease/VB/ccomp/0
                 String[] tokenParts = token.split("/");
 
-                if (tokenParts.length < 4) continue; // Skip malformed tokens
+                if (tokenParts.length < 3) continue; // Skip malformed tokens
 
                 String word = tokenParts[0].trim();
                 String depLabel = tokenParts[2].trim();
 
                 // Stemming (normalize the word)
-                String lexeme = applyStemming(word);  //#TODO Amit: Nave, didn't you say the relevant word is the word with the previous index?
+                if (word.isEmpty()) continue;
+                String lexeme = Utils.stemAndReturn(word);
 
-                // Only process if lexeme is in lexemeSet (loaded from Step 1)
-                if (!lexemeSet.contains(lexeme)) continue;
+                // Only process if lexeme is in lexemeSet
+                //if (!lexemeSet.contains(lexeme)) continue; //TODO: un-comment after demo
+                //if (!depLableSet.contains(depLabel)) continue; //TODO: un-comment after demo
 
-                featureSet.add(depLabel); // Store features (for each feature related to the lexeme)
-                context.write(new Text(lexeme + "-" + depLabel), countOutput); // Output: (Text lexeme, Text feature quantity)
+                // depLableSet.add(depLabel); // Store a;; possibles dependency labels
+                String feature = lexeme + "-" + depLabel;
+                context.write(new Text(lexeme), new Text (feature + " " + totalCount)); // Output: (Text lexeme, Text feature <space> quantity)
             }
         }
 
-
+        /**
+         * For each lexeme emit all possibles feature, ensuring every lexeme has a full features vector.
+         */
         @Override
         protected void cleanup(Context context) throws IOException, InterruptedException {
-            // Ensure every lexeme has a full feature vector with zeros also
-            for (String lexeme : lexemeSet) {
-                for (String feature : featureSet) {
-                    countOutput.set(0); // Emit missing features as 0
-                    context.write(new Text(lexeme + " " + feature), countOutput); //#TODO Change this output syntax? not sure what to write here. Amit: Output: (Text lexeme, Text (feature quantity)) feature=lexeme-depLable
 
+            for (String lexeme : lexemeSet) {
+                for (String depLabel : depLableSet) {
+                    String feature = lexeme + "-" + depLabel;
+                    context.write(new Text(lexeme), new Text(feature + " " + "0"));
                 }
             }
         }
 
+        /*
         // Apply stemming using Stemmer.java
         private String applyStemming(String word) {
             stemmer.add(word.toCharArray(), word.length());
             stemmer.stem();
             return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
         }
-    }
+        */
+    } //end of mapper class
 
-    //aggerates the quantities
+    /*
+    //aggravates the quantities
     public static class CombinerClass extends Reducer<Text, LongWritable, Text, LongWritable> { //#TODO I'm not sure i used the right parameters?
 
         private final LongWritable sumCount = new LongWritable();
@@ -129,30 +156,34 @@ public class Step2 {
             context.write(key, sumCount);
         }
     }
+    */
 
+    /*
     public static class PartitionerClass extends Partitioner<Text, LongWritable> {
         @Override
         public int getPartition(Text key, LongWritable value, int numPartitions) {
             return key.hashCode() % numPartitions;
         }
     }
+     */
 
-    public static class ReducerClass extends Reducer<Text, LongWritable, Text, Text> {
+    public static class ReducerClass extends Reducer<Text, Text, Text, Text> {
 
         @Override
-        public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
-            // Step 1: build a dictionary, (TreeMap to keep features sorted i read)
+        //fc: feature <space> count
+        public void reduce(Text lexeme, Iterable<Text> fcCouples, Context context) throws IOException, InterruptedException {
+            // Step 1: build a dictionary, (TreeMap to keep features sorted)
             Map<String, Long> featureCounts = new TreeMap<>();
 
-            for (LongWritable value : values) {
-                String[] keyParts = key.toString().split("-"); // key format: lexeme-feature
-                if (keyParts.length < 2) continue; // Ignore malformed keys
+            for (Text fc : fcCouples) {
 
-                String lexeme = keyParts[0];
-                String feature = keyParts[1];
+                String[] fcParts = fc.toString().split("-"); // value format: feature-count
+                if (fcParts.length < 2) continue; // Ignore malformed keys
+                String feature = fcParts[0];
+                String count = fcParts[1];
 
                 //Aggregate the Counts (L=l, F=f)
-                featureCounts.put(feature, featureCounts.getOrDefault(feature, 0L) + value.get());
+                featureCounts.put(feature, featureCounts.getOrDefault(feature, 0L) + Long.parseLong(count));
             }
 
             // From the dictionary builds a vector of the quotieties order by the lexicographic order of the feature's title
@@ -162,7 +193,7 @@ public class Step2 {
             }
 
             // Emit: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
-            context.write(new Text(key.toString().split("-")[0]), new Text(featureVector.toString().trim())); //#TODO Change syntax?
+            context.write(lexeme, new Text(featureVector.toString().trim()));
         }
     }
 
@@ -171,6 +202,7 @@ public class Step2 {
         System.out.println(args.length > 0 ? args[0] : "no args");
         Configuration conf = new Configuration();
 
+        /*
         // Set S3 as the default filesystem
         conf.set("fs.defaultFS", App.s3Path);
         conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
@@ -182,16 +214,18 @@ public class Step2 {
         if (fs.exists(outputPath)) {
             fs.delete(outputPath, true); // Recursively delete the output directory
         }
+         */
+
         Job job = Job.getInstance(conf, "Step 2");
         job.setJarByClass(Step2.class);
         job.setMapperClass(MapperClass.class);
-        job.setCombinerClass(CombinerClass.class);  // Added?
-        job.setPartitionerClass(PartitionerClass.class);
+        // job.setCombinerClass(ReducerClass.class); //commoner don't fit here
+        //job.setPartitionerClass(PartitionerClass.class);
         job.setReducerClass(ReducerClass.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(LongWritable.class);
+        job.setMapOutputValueClass(Text.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
+        job.setOutputValueClass(Text.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
         //For demo testing input format
@@ -202,7 +236,7 @@ public class Step2 {
 
         //Actual NGRAM
         //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
+        //FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
 
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
 

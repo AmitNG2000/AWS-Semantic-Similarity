@@ -1,26 +1,18 @@
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.S3Object;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.google.gson.Gson;
 
 /**
  *  calculates count(F=f) and count(L=l) using dictionaries and emit as JSON
@@ -44,7 +36,7 @@ public class Step1 {
         public void map(LongWritable line_Id, Text line, Context context) throws IOException, InterruptedException {
             String line_str = line.toString();
             System.out.println("[DEBUG] Line" + line_str);
-            String[] parts = line_str.split("\t | <tab>");
+            String[] parts = line_str.split("\t");
 
             //cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
 
@@ -64,7 +56,7 @@ public class Step1 {
                 String[] tokenParts = token.split("/");
                 if (tokenParts.length < 3) continue;
                 String lexeme = Utils.stemAndReturn(tokenParts[0]);
-                if (!lexemeSet.contains(lexeme)) continue;
+                //if (!lexemeSet.contains(lexeme)) continue; //TODO: un-comment after demo
                 context.write(new Text(lexeme), totalCount);
                 String depLabel = tokenParts[2];
                 String feature = lexeme + "-" + depLabel;
@@ -79,7 +71,7 @@ public class Step1 {
 
         @Override
         public void reduce(Text key, Iterable<LongWritable> counts, Context context) throws IOException,  InterruptedException {
-
+            //key is lexeme or feature
             long sum = 0;
             for (LongWritable count : counts) {
                 sum += count.get();

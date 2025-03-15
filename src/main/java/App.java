@@ -10,8 +10,7 @@ import com.amazonaws.services.elasticmapreduce.AmazonElasticMapReduceClientBuild
 import com.amazonaws.services.elasticmapreduce.model.*;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class App {
     public static AWSCredentialsProvider credentialsProvider;
@@ -46,14 +45,24 @@ public class App {
 
         try {
 
-            // Step 0
-            HadoopJarStepConfig step0 = new HadoopJarStepConfig()
-                    .withJar(String.format("%s/jars/Step0.jar", s3Path))
-                    .withMainClass("Step0");
+            // Step 01
+            HadoopJarStepConfig step01 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step01.jar", s3Path))
+                    .withMainClass("Step01");
 
-            StepConfig stepConfig0 = new StepConfig()
-                    .withName("Step0")
-                    .withHadoopJarStep(step0)
+            StepConfig stepConfig01 = new StepConfig()
+                    .withName("Step01")
+                    .withHadoopJarStep(step01)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
+
+            // Step 02
+            HadoopJarStepConfig step02 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step02.jar", s3Path))
+                    .withMainClass("Step02");
+
+            StepConfig stepConfig02 = new StepConfig()
+                    .withName("Step02")
+                    .withHadoopJarStep(step02)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
 
             // Step 1
@@ -87,7 +96,7 @@ public class App {
             RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
                     .withName("Map reduce project")
                     .withInstances(instances)
-                    .withSteps(Arrays.asList(stepConfig0, stepConfig1, stepConfig2))
+                    .withSteps(Arrays.asList(stepConfig01, stepConfig02, stepConfig1, stepConfig2))
                     .withLogUri(String.format("%s/logs/", s3Path))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")

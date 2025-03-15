@@ -6,7 +6,9 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Utils {
@@ -50,15 +52,55 @@ public class Utils {
 
 
     /**
-     * Creates a set from step0's output.
+     * Creates a set from step01's output.
      * @return LexemeSet
      * @throws IOException
      */
     public static Set<String> retrieveLexemeSet() throws IOException {
 
-        String bucketName = String.format("%s/outputs/output_step0", App.s3Path);
-        String fileName = "part-r-00000";
-
-        return retrieveSetFromFile(bucketName, fileName);
+        String fileKey = "outputs/output_step01/part-r-00000";
+        Set<String> lexemeSet = retrieveSetFromFile(App.bucketName, fileKey);
+        System.out.println("[DEBUG] retrieveLexemeSet " + lexemeSet); //TODO: delete after demo
+        return lexemeSet;
     }
+
+    /**
+     * Creates a set from step02's output.
+     * @return depLabel
+     * @throws IOException
+     */
+    public static Set<String> retrieveDepLabelSet() throws IOException {
+
+        String fileKey = "outputs/output_step02/part-r-00000";
+        Set<String> depLabelSet = retrieveSetFromFile(App.bucketName, fileKey);
+        System.out.println("[DEBUG] retrieveDepLabelSet " + depLabelSet); //TODO: delete after demo
+        return depLabelSet;
+    }
+
+
+    public static Map<String, Long> retrievelexemeFeatureToCountMap() throws IOException{
+        Map<String,Long> lexemeFeatureToCountMap = new HashMap<>();
+
+        String fileKey = "outputs/output_step1/part-r-00000";
+
+        // Retrieve file from S3
+        S3Object s3object = s3Client.getObject(App.bucketName, fileKey);
+        S3ObjectInputStream inputStream = s3object.getObjectContent();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] lineParts = line.split("\t");
+            String lexemeOrFeature = lineParts[0];
+            Long count = Long.valueOf(lineParts[1]);
+            lexemeFeatureToCountMap.put(lexemeOrFeature,count);
+        }
+
+        // Manually close resources
+        reader.close();
+        inputStream.close();
+
+        return lexemeFeatureToCountMap;
+    }
+
 }
