@@ -25,7 +25,7 @@ public class Utils {
     }
 
     private static Set<String> retrieveSetFromFile(String bucketName, String fileName) throws IOException {
-        Set<String> lexemeSet = new HashSet<>();
+        Set<String> mySet = new HashSet<>();
 
         // Retrieve file from S3
         S3Object s3object = s3Client.getObject(bucketName, fileName);
@@ -37,7 +37,7 @@ public class Utils {
             String word = line.trim();
             if (!word.isEmpty()) { // Skip empty lines
                 String lexeme = stemAndReturn(line.trim());
-                lexemeSet.add(lexeme);
+                mySet.add(lexeme);
             }
         }
 
@@ -45,7 +45,7 @@ public class Utils {
         reader.close();
         inputStream.close();
 
-        return lexemeSet;
+        return mySet;
     }
 
 
@@ -55,8 +55,10 @@ public class Utils {
      * @throws IOException
      */
     public static Set<String> retrieveLexemeSet() throws IOException {
-        String bucketName = App.bucketName;  // Use correct bucket name
-        String fileName = "outputs/output_step0"; // Correct path inside the bucket
+
+        String bucketName = String.format("%s/outputs/output_step0", App.s3Path);
+        String fileName = "part-r-00000";
+
         return retrieveSetFromFile(bucketName, fileName);
     }
 }

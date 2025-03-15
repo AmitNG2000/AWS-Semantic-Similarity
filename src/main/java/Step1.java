@@ -44,7 +44,7 @@ public class Step1 {
         public void map(LongWritable line_Id, Text line, Context context) throws IOException, InterruptedException {
             String line_str = line.toString();
             System.out.println("[DEBUG] Line" + line_str);
-            String[] parts = line_str.split("\\t | <tab>");
+            String[] parts = line_str.split("\t | <tab>");
 
             //cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
 
