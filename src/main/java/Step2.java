@@ -167,7 +167,7 @@ public class Step2 {
         }
     }
      */
-
+    //Mapper Output format: (Text lexeme, Text feature<space><count>)
     public static class ReducerClass extends Reducer<Text, Text, Text, Text> {
 
         @Override
@@ -178,16 +178,17 @@ public class Step2 {
 
             for (Text fc : fcCouples) {
 
-                String[] fcParts = fc.toString().split("-"); // value format: feature-count
-                if (fcParts.length < 2) continue; // Ignore malformed keys
+                String[] fcParts = fc.toString().split(" "); // value format: feature count
+                // if (fcParts.length < 2) continue; // Ignore malformed keys //TODO: un-comment after demo?
                 String feature = fcParts[0];
                 String count = fcParts[1];
 
                 //Aggregate the Counts (L=l, F=f)
-                featureCounts.put(feature, featureCounts.getOrDefault(feature, 0L) + Long.parseLong(count));
+                featureCounts.put(feature, (featureCounts.getOrDefault(feature, 0L) + Long.parseLong(count)));
             }
 
-            // From the dictionary builds a vector of the quotieties order by the lexicographic order of the feature's title
+            // From the dictionary builds a vector of the counts order by the lexicographic order of the feature's title.
+            // since the map is a tree map we will get a natural order of the features. Insuring consist structure in all the lexemes.
             StringBuilder featureVector = new StringBuilder();
             for (Map.Entry<String, Long> entry : featureCounts.entrySet()) {
                 featureVector.append(entry.getValue()).append(" ");
