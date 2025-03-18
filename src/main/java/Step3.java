@@ -13,7 +13,6 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import java.io.IOException;
 import java.util.*;
 
-
 /**
  *   measure association with the context and create four vectors, one for each association method.
  * @Input step2's output
@@ -25,10 +24,44 @@ public class Step3 {
 
         private Map<String, Long> lexemeFeatureToCount = new HashMap<>();
 
+        private Set<String> lexemeSet = new HashSet<>(); // Stores lexemes from Step 1
+        private Set<String> depLabelSet = new HashSet<>(); // Stores all seen features
+        private String[] vectorStrucherArr; //fetchers by lexicographic order.
+        private long countL = 0; //total count of all lexemes
+        private long countF = 0; //total count of all feature
+
+
         @Override
         protected void setup(Context context) throws IOException {
 
             lexemeFeatureToCount = Utils.retrievelexemeFeatureToCountMap();
+
+            //creates a represention of the vectors format
+            lexemeSet = Utils.retrieveLexemeSet();
+            depLabelSet = Utils.retrieveDepLabelSet();
+
+            List<String> vectorStretcherLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
+            for (String lexeme : lexemeSet) {
+                for (String depLabel : depLabelSet) {
+                    String fetcher = lexeme + "-" + depLabel;
+                    vectorStretcherLst.add(fetcher);
+                }
+            }
+            Collections.sort(vectorStretcherLst);
+            vectorStrucherArr = vectorStretcherLst.toArray(new String[0]); //fetchers by lexicographic order.
+
+
+            //calculates countL
+            for (String key : lexemeFeatureToCount.keySet()) {
+                if (lexemeSet.contains(key)) { // Correct condition
+                    countL += lexemeFeatureToCount.get(key); // Correct Map lookup
+                } else { //if no lexeme so this is a feature
+                    countF += lexemeFeatureToCount.get(key);
+                }
+            }
+
+
+
         }
 
         @Override
@@ -37,10 +70,60 @@ public class Step3 {
 
             String[] LineFields = line.toString().split("\t"); // Tab-separated
             String lexeme = LineFields[0];
-            String vector = LineFields[1];
+            String[] counts_fl_vector = LineFields[1].split(" "); //vector is space separated, the counts are matches to the fetchers by lexicographic order.
 
 
-            //context.write(new Text(lexeme), new Text(vectores); //TODO:
+            ////////  Calculate the values of each vector by all the methods (5,6,7,8) ////////
+
+            // init the vectores
+            //Each vector os space separated, counts matches to the fetchers by lexicographic order.
+            String[] v5 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 5
+            String[] v6 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length); //vector by method 6
+            String[] v7 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 7
+            String[] v8 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 8
+
+            //method 5
+            //no furthers steps are required
+
+            //method 6
+            for (int i = 0; i < v6.length; i++) {
+                if (!v6[i].equals("0")) continue;
+                v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStrucherArr[i]));
+            }
+
+            // method 7 + 8
+            double p_l_f;
+            double p_l;
+            double p_f;
+
+            for (int i = 0; i < v7.length; i++) {  //at the start v7 and v8 are the same
+
+                if (!v7[i].equals("0")) continue;
+
+                p_l_f = Double.parseDouble(counts_fl_vector[i]) / countF;
+                p_l = (double) lexemeFeatureToCount.get(lexeme) / countL;
+                p_f = (double) lexemeFeatureToCount.get(vectorStrucherArr[i]) / countL;
+
+                //method 7
+                double value_by_7 = Math.log(p_l_f / (p_l * p_f)) / Math.log(2); //to get a log with base 2
+                v7[i] = String.valueOf(value_by_7);
+
+                //method 8
+                double value_by_8 = (p_l_f - p_l * p_f) / Math.sqrt(p_l * p_f);
+                v8[i] = String.valueOf(value_by_8);
+            }
+
+
+            // Join each vector's elements with space
+            String v5Joined = String.join(" ", v5);
+            String v6Joined = String.join(" ", v6);
+            String v7Joined = String.join(" ", v7);
+            String v8Joined = String.join(" ", v8);
+
+            // Join all vectors with a tab between them
+            String joinedVectors = v5Joined + "\t" + v6Joined + "\t" + v7Joined + "\t" + v8Joined;
+
+            context.write(new Text(lexeme), new Text(joinedVectors));
 
         }
 
@@ -52,7 +135,7 @@ public class Step3 {
             public void reduce(Text lexeme, Iterable<Text> vectors, Context context) throws IOException, InterruptedException {
                 for (Text vector : vectors) {
                     context.write(lexeme, vector);
-                    return;
+                    return; //just one vector for each lexeme
                 }
             }
         }
@@ -63,8 +146,8 @@ public class Step3 {
             Configuration conf = new Configuration();
 
 
-            Job job = Job.getInstance(conf, "Step 2");
-            job.setJarByClass(Step2.class);
+            Job job = Job.getInstance(conf, "Step 3");
+            job.setJarByClass(Step3.class);
             job.setMapperClass(MapperClass.class);
             // job.setCombinerClass(ReducerClass.class); //commoner don't fit here
             //job.setPartitionerClass(PartitionerClass.class);
