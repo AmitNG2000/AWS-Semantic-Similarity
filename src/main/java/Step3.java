@@ -14,19 +14,17 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- *   measure association with the context and create four vectors, one for each association method.
+ * measure association with the context and create four vectors, one for each association method.
  * @Input step2's output
  * Output: (Text lexeme, Text v1 v2 v3 v4)
  */
 public class Step3 {
+
+
     public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
 
-
         private Map<String, Long> lexemeFeatureToCount = new HashMap<>();
-
-        private Set<String> lexemeSet = new HashSet<>(); // Stores lexemes from Step 1
-        private Set<String> depLabelSet = new HashSet<>(); // Stores all seen features
-        private String[] vectorStrucherArr; //fetchers by lexicographic order.
+        private String[] vectorStretcherArr; //fetchers by lexicographic order.
         private long countL = 0; //total count of all lexemes
         private long countF = 0; //total count of all feature
 
@@ -36,10 +34,9 @@ public class Step3 {
 
             lexemeFeatureToCount = Utils.retrievelexemeFeatureToCountMap();
 
-            //creates a represention of the vectors format
-            lexemeSet = Utils.retrieveLexemeSet();
-            depLabelSet = Utils.retrieveDepLabelSet();
-
+            //creates a represention of the vectors format (all the fetchers in a lexicographic order)
+            Set<String> lexemeSet = Utils.retrieveLexemeSet();
+            Set<String> depLabelSet = Utils.retrieveDepLabelSet();
             List<String> vectorStretcherLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
             for (String lexeme : lexemeSet) {
                 for (String depLabel : depLabelSet) {
@@ -47,11 +44,10 @@ public class Step3 {
                     vectorStretcherLst.add(fetcher);
                 }
             }
-            Collections.sort(vectorStretcherLst);
-            vectorStrucherArr = vectorStretcherLst.toArray(new String[0]); //fetchers by lexicographic order.
+            vectorStretcherLst.sort(String::compareTo);
+            vectorStretcherArr = vectorStretcherLst.toArray(new String[0]); //fetchers by lexicographic order.
 
-
-            //calculates countL
+            //calculates countL and countF
             for (String key : lexemeFeatureToCount.keySet()) {
                 if (lexemeSet.contains(key)) { // Correct condition
                     countL += lexemeFeatureToCount.get(key); // Correct Map lookup
@@ -59,10 +55,7 @@ public class Step3 {
                     countF += lexemeFeatureToCount.get(key);
                 }
             }
-
-
-
-        }
+        } //end of mapper.setup
 
         @Override
         public void map(LongWritable line_id, Text line, Context context) throws IOException, InterruptedException {
@@ -75,20 +68,20 @@ public class Step3 {
 
             ////////  Calculate the values of each vector by all the methods (5,6,7,8) ////////
 
-            // init the vectores
+            // init the vectors
             //Each vector os space separated, counts matches to the fetchers by lexicographic order.
-            String[] v5 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 5
+            String[] v5 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length); //vector by method 5
             String[] v6 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length); //vector by method 6
-            String[] v7 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 7
-            String[] v8 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length);; //vector by method 8
+            String[] v7 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length); //vector by method 7
+            String[] v8 = Arrays.copyOf(counts_fl_vector, counts_fl_vector.length); //vector by method 8
 
             //method 5
             //no furthers steps are required
 
             //method 6
             for (int i = 0; i < v6.length; i++) {
-                if (!v6[i].equals("0")) continue;
-                v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStrucherArr[i]));
+                if (v6[i].equals("0")) continue;
+                v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStretcherArr[i]));
             }
 
             // method 7 + 8
@@ -102,7 +95,7 @@ public class Step3 {
 
                 p_l_f = Double.parseDouble(counts_fl_vector[i]) / countF;
                 p_l = (double) lexemeFeatureToCount.get(lexeme) / countL;
-                p_f = (double) lexemeFeatureToCount.get(vectorStrucherArr[i]) / countL;
+                p_f = (double) lexemeFeatureToCount.get(vectorStretcherArr[i]) / countL;
 
                 //method 7
                 double value_by_7 = Math.log(p_l_f / (p_l * p_f)) / Math.log(2); //to get a log with base 2
@@ -121,56 +114,58 @@ public class Step3 {
             String v8Joined = String.join(" ", v8);
 
             // Join all vectors with a tab between them
-            String joinedVectors = v5Joined + "\t" + v6Joined + "\t" + v7Joined + "\t" + v8Joined;
-
+            String joinedVectors = v5Joined + ":" + v6Joined + ":" + v7Joined + ":" + v8Joined;
+            //Output format: lexeme, v5:v6:v7:v8
+            //vi is space_separated_vector
             context.write(new Text(lexeme), new Text(joinedVectors));
 
-        }
 
-
-        public static class ReducerClass extends Reducer<Text, Text, Text, Text> {
-
-            @Override
-            //fc: feature <space> count
-            public void reduce(Text lexeme, Iterable<Text> vectors, Context context) throws IOException, InterruptedException {
-                for (Text vector : vectors) {
-                    context.write(lexeme, vector);
-                    return; //just one vector for each lexeme
-                }
-            }
-        }
-
-        public static void main(String[] args) throws Exception {
-            System.out.println("[DEBUG] STEP 2 started!");
-            System.out.println(args.length > 0 ? args[0] : "no args");
-            Configuration conf = new Configuration();
-
-
-            Job job = Job.getInstance(conf, "Step 3");
-            job.setJarByClass(Step3.class);
-            job.setMapperClass(MapperClass.class);
-            // job.setCombinerClass(ReducerClass.class); //commoner don't fit here
-            //job.setPartitionerClass(PartitionerClass.class);
-            job.setReducerClass(ReducerClass.class);
-            job.setMapOutputKeyClass(Text.class);
-            job.setMapOutputValueClass(Text.class);
-            job.setOutputKeyClass(Text.class);
-            job.setOutputValueClass(Text.class);
-            job.setOutputFormatClass(TextOutputFormat.class);
-
-            //For demo testing input format
-            job.setInputFormatClass(TextInputFormat.class);
-
-            //For demo testing
-            FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt", App.s3Path)));
-
-            //Actual NGRAM
-            //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
-            //FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
-
-            FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
-
-            System.exit(job.waitForCompletion(true) ? 0 : 1);
         }
     }
+
+
+    public static class ReducerClass extends Reducer<Text, Text, Text, Text> {
+
+        @Override
+        //fc: feature <space> count
+        public void reduce(Text lexeme, Iterable<Text> vectors, Context context) throws IOException, InterruptedException {
+            for (Text vector : vectors) {
+                context.write(lexeme, vector);
+                // return; //just one vector per lexeme
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("[DEBUG] STEP 3 started!");
+        System.out.println(args.length > 0 ? args[0] : "no args");
+        Configuration conf = new Configuration();
+
+
+        Job job = Job.getInstance(conf, "Step 3");
+        job.setJarByClass(Step3.class);
+        job.setMapperClass(MapperClass.class);
+        // job.setCombinerClass(ReducerClass.class); //commoner don't fit here
+        //job.setPartitionerClass(PartitionerClass.class);
+        job.setReducerClass(ReducerClass.class);
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(Text.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
+
+        //For demo testing input format
+        job.setInputFormatClass(TextInputFormat.class);
+
+        //For demo testing
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
+
+        //Actual NGRAM
+        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        //FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
+
+        FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step3", App.s3Path)));
+
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+    } //end of main
 }
