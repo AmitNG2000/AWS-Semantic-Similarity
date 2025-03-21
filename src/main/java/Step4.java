@@ -58,18 +58,141 @@ public class Step4 {
 
         @Override
         public void reduce(Text lexemes, Iterable<Text> unitedVectors, Context context) throws IOException, InterruptedException {
-            //input format: lexeme1 lexeme2, v5:v6:v7:v8
-            //we expect 2 values per key
-            //String[lexeme][vi][entry]
+            // Input format: lexeme1 lexeme2 <TAB> v5:v6:v7:v8
+            // Expecting 2 values per key
 
-            String[][][] vectors = new String[2][4][]
+            List<double[]> lexeme1_vectors = new ArrayList<>();
+            List<double[]> lexeme2_vectors = new ArrayList<>();
 
-            for (Text uniteVector : unitedVectors) {
-                Long[] v5 = null;
+            int i = 0;
+            for (Text unitedVector : unitedVectors) {
+                String[] vectors = unitedVector.toString().split(":");
+
+                if (vectors.length != 4) {
+                    throw new IOException("For " + lexemes.toString() + "Expected 4 vectors (v5:v6:v7:v8), but got " + vectors.length);
+                }
+
+                if (i == 0) {
+                    for (String vector : vectors) {
+                        lexeme1_vectors.add(Arrays.stream(vector.split(" ")).mapToDouble(Double::parseDouble).toArray());
+                    }
+                }
+
+                if (i == 1) {
+                    for (String vector : vectors) {
+                        lexeme2_vectors.add(Arrays.stream(vector.split(" ")).mapToDouble(Double::parseDouble).toArray());
+                    }
+                }
+
+                i++;
             }
 
-        } //end reduce()
+            // compute vector similarity measures with 6 methods.
+
+
+
+            // Compute results and store them in result_24_vector
+            // The 24_vector format is that for each measure of association have six continuous entries in the vector representing the different measures of vector similarity.
+            // The orders of the measures is by the order of the artical.
+            List<Double> result_24_vector = new ArrayList<>();
+            for (int j = 0; j < 4; j++) {
+                double[] vec1 = lexeme1_vectors.get(j);
+                double[] vec2 = lexeme2_vectors.get(j);
+
+                result_24_vector.add(dist_by_method_9(vec1, vec2));
+                result_24_vector.add(dist_by_method_10(vec1, vec2));
+                result_24_vector.add(dist_by_method_11(vec1, vec2));
+                result_24_vector.add(dist_by_method_13(vec1, vec2));
+                result_24_vector.add(dist_by_method_15(vec1, vec2));
+                result_24_vector.add(dist_by_method_17(vec1, vec2));
+            }
+
+            String result_24_vector_str = result_24_vector.stream().map(String::valueOf).reduce((a, b) -> a + " " + b).orElse("");
+            context.write(lexemes, new Text(result_24_vector_str));
+
+        }//end reduce
+
+
+        ///////// Measures of Vector Similarity /////////
+        protected double dist_by_method_9(double[] vector1, double[] vector2) {
+            double sum = 0.0;
+                for (int i = 0; i < vector1.length; i++) {
+                    sum += Math.abs(vector1[i] - vector2[i]);
+                }
+            return sum;
+        }
+
+        protected double dist_by_method_10(double[] vector1, double[] vector2) {
+            double sum = 0.0;
+            for (int i = 0; i < vector1.length; i++) {
+                sum += Math.pow((vector1[i] - vector2[i]), 2);
+            }
+            return Math.sqrt(sum);
+        }
+
+        protected double dist_by_method_11(double[] vector1, double[] vector2) {
+                double sumOfProducts = 0.0;
+                double sumOfSquaredVector1 = 0.0;
+                double sumOfSquaredVector2 = 0.0;
+                for (int i = 0; i < vector1.length; i++) {
+                    sumOfProducts += vector1[i] * vector2[i];
+                    sumOfSquaredVector1 += Math.pow(vector1[i], 2);
+                    sumOfSquaredVector2 += Math.pow(vector2[i], 2);
+                }
+            return (sumOfProducts / (Math.sqrt(sumOfSquaredVector1) * Math.sqrt(sumOfSquaredVector2)));
+        }
+
+        protected double dist_by_method_13(double[] vector1, double[] vector2) {
+            double sumOfMin = 0.0;
+            double sumOfMax = 0.0;
+            for (int i = 0; i < vector1.length; i++) {
+                sumOfMin += Math.min(vector1[i], vector2[i]);
+                sumOfMax += Math.max(vector1[i], vector2[i]);
+            }
+            return sumOfMin / sumOfMax;
+        }
+
+        protected double dist_by_method_15(double[] vector1, double[] vector2) {
+            double sumOfMin = 0.0;
+            double sumOfCoordinate = 0.0;
+            for (int i = 0; i < vector1.length; i++) {
+                sumOfMin += Math.min(vector1[i], vector2[i]);
+                sumOfCoordinate += vector1[i] + vector2[i];
+            }
+            return 2* sumOfMin / sumOfCoordinate;
+        }
+
+        protected double dist_by_method_17(double[] vector1, double[] vector2) {
+
+            // Compute the Kullback-Leibler divergence
+
+            double[] midpoint = new double[vector1.length];
+            for (int i = 0; i < vector1.length; i++) {
+                midpoint[i] = (vector1[i] + vector2[i]) / 2.0;
+            }
+
+            double kl1 = klDivergence(vector1, midpoint);
+            double kl2 = klDivergence(vector2, midpoint);
+
+            // Return the sum of the two KL divergences as the Jensen-Shannon divergence
+            return kl1 + kl2;
+        }
+
+        // Calculate Kullback-Leibler Divergence
+        private double klDivergence(double[] p, double[] q) {
+            double klDiv = 0.0;
+            for (int i = 0; i < p.length; i++) {
+                if (p[i] > 0 && q[i] > 0) {  // Prevent log(0)
+                    klDiv += p[i] * Math.log(p[i] / (q[i] + 1e-10));
+                }
+            }
+            return klDiv;
+        }
+
+
     } //end reducer class
+
+
 
     public static void main(String[] args) throws Exception {
         System.out.println("[DEBUG] STEP 4 started!");
@@ -78,7 +201,7 @@ public class Step4 {
 
 
         Job job = Job.getInstance(conf, "Step 4");
-        job.setJarByClass(Step3.class);
+        job.setJarByClass(Step4.class);
         job.setMapperClass(MapperClass.class);
         // job.setCombinerClass(ReducerClass.class); //commoner don't fit here
         //job.setPartitionerClass(PartitionerClass.class);
