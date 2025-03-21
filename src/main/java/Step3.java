@@ -58,7 +58,7 @@ public class Step3 {
         } //end of mapper.setup
 
         @Override
-        public void map(LongWritable line_id, Text line, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable line_id, Text line, Context context) throws IOException, InterruptedException, IllegalArgumentException {
             //line format: lexeme    spaces_separated_counts(F=f, L=l)
 
             String[] LineFields = line.toString().split("\t"); // Tab-separated
@@ -90,6 +90,11 @@ public class Step3 {
             double p_f;
 
             for (int i = 0; i < v7.length; i++) {  //at the start v7 and v8 are the same
+
+                if (lexemeFeatureToCount.get(lexeme) == null) {
+                    throw new IllegalArgumentException("lexemeFeatureToCount.get(" + lexeme + ") = null");
+                }
+
 
                 if (!v7[i].equals("0")) continue;
 

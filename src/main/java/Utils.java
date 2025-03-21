@@ -34,6 +34,10 @@ public class Utils {
         S3ObjectInputStream inputStream = s3object.getObjectContent();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+        if (!reader.ready()) {
+            throw new IOException("retrieveSetFromFile: S3 file is empty: " + fileName);
+        }
+
         String line;
         while ((line = reader.readLine()) != null) {
             String word = line.trim();
@@ -46,6 +50,10 @@ public class Utils {
         // Manually close resources
         reader.close();
         inputStream.close();
+
+        if (mySet.isEmpty()) {
+            throw new IOException("retrieveSetFromFile:  Loaded mySet is empty.");
+        }
 
         return mySet;
     }
@@ -88,6 +96,10 @@ public class Utils {
         S3ObjectInputStream inputStream = s3object.getObjectContent();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+        if (!reader.ready()) {
+            throw new IOException("retrievelexemeFeatureToCountMap: S3 file is empty: " + fileKey);
+        }
+
         String line;
         while ((line = reader.readLine()) != null) {
             String[] lineParts = line.split("\t");
@@ -99,6 +111,10 @@ public class Utils {
         // Manually close resources
         reader.close();
         inputStream.close();
+
+        if (lexemeFeatureToCountMap.isEmpty()) {
+            throw new IOException("retrievelexemeFeatureToCountMap: Loaded map is empty.");
+        }
 
         return lexemeFeatureToCountMap;
     }
