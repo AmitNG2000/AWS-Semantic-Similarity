@@ -60,7 +60,7 @@ public class Step1 {
                 String[] tokenParts = token.split("/");
                 //if (tokenParts.length < 3) continue; //TODO: un-comment?
                 String lexeme = Utils.stemAndReturn(tokenParts[0]);
-                //if (!lexemeSet.contains(lexeme)) continue; //TODO: un-comment after demo
+                if (!lexemeSet.contains(lexeme)) continue;
                 context.write(new Text(lexeme), totalCount);
                 String depLabel = tokenParts[2];
                 String feature = lexeme + "-" + depLabel;
