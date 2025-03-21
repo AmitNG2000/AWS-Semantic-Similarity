@@ -105,7 +105,7 @@ public class Step2 {
                 String lexeme = Utils.stemAndReturn(word);
 
                 // Only process if lexeme is in lexemeSet
-                //if (!lexemeSet.contains(lexeme)) continue; //TODO: un-comment after demo
+                if (!lexemeSet.contains(lexeme)) continue; //filter lexemes that are not presented at `word-relatedness.txt`.
                 //if (!depLableSet.contains(depLabel)) continue; //TODO: un-comment after demo
 
                 // depLableSet.add(depLabel); // Store a;; possibles dependency labels
