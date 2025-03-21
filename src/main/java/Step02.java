@@ -34,13 +34,17 @@ public class Step02 {
 
             // Process the entire syntactic N-Gram
             String[] tokens = syntacticNgram.split(" ");
-
             for (String token : tokens) {
-                //Token Format: cease/VB/ccomp/0
-                String[] tokenParts = token.split("/");
-                String depLabel = tokenParts[2].trim();
+                try {
+                    // Token Format: cease/VB/ccomp/0
+                    String[] tokenParts = token.split("/");
 
-                context.write(new Text(depLabel), new Text());
+                    String depLabel = tokenParts[2].trim();
+                    context.write(new Text(depLabel), new Text());
+
+                } catch (Exception e) {
+                    throw new IOException("Error processing token: " + token, e);
+                }
             }
         }
     }
