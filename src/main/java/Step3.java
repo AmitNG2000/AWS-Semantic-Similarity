@@ -92,7 +92,8 @@ public class Step3 {
             for (int i = 0; i < v7.length; i++) {  //at the start v7 and v8 are the same
 
                 if (lexemeFeatureToCount.get(lexeme) == null) {
-                    throw new IllegalArgumentException("lexemeFeatureToCount.get(" + lexeme + ") = null");
+                    //throw new IllegalArgumentException("lexemeFeatureToCount.get(" + lexeme + ") = null");
+                    return; //the lexeme is not in the corpus.
                 }
 
 
