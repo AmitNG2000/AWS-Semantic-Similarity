@@ -40,7 +40,7 @@ public class Utils {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            String word = line.trim();
+            String word = line.split("\t")[0].trim();
             if (!word.isEmpty()) { // Skip empty lines
                 String lexeme = stemAndReturn(line.trim());
                 mySet.add(lexeme);
