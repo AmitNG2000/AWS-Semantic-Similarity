@@ -188,8 +188,6 @@ public class Step4 {
             }
             return klDiv;
         }
-
-
     } //end reducer class
 
 
@@ -212,16 +210,9 @@ public class Step4 {
         job.setOutputValueClass(Text.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        //For demo testing input format
         job.setInputFormatClass(TextInputFormat.class);
 
-        //For demo testing
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt", App.s3Path)));
-
-        //Actual NGRAM
-        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
-
+        FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step3", App.s3Path)));
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step4", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
