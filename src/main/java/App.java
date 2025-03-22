@@ -95,6 +95,16 @@ public class App {
                     .withHadoopJarStep(step3)
                     .withActionOnFailure("TERMINATE_JOB_FLOW");
 
+            // Step 4
+            HadoopJarStepConfig step4 = new HadoopJarStepConfig()
+                    .withJar(String.format("%s/jars/Step4.jar", s3Path))
+                    .withMainClass("Step4");
+
+            StepConfig stepConfig4 = new StepConfig()
+                    .withName("Step4")
+                    .withHadoopJarStep(step4)
+                    .withActionOnFailure("TERMINATE_JOB_FLOW");
+
 
             // Configure job flow
             JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
@@ -107,7 +117,7 @@ public class App {
             RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
                     .withName("Map reduce project")
                     .withInstances(instances)
-                    .withSteps(Arrays.asList(stepConfig01, stepConfig02, stepConfig1, stepConfig2, stepConfig3))
+                    .withSteps(Arrays.asList(stepConfig01, stepConfig02, stepConfig1, stepConfig2, stepConfig3, stepConfig4))
                     .withLogUri(String.format("%s/logs/", s3Path))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")

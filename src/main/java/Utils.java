@@ -106,7 +106,7 @@ public class Utils {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] lineParts = line.split("\t");
+            String[] lineParts = line.trim().split("\t");
             String lexemeOrFeature = lineParts[0];
             Long count = Long.valueOf(lineParts[1]);
             lexemeFeatureToCountMap.put(lexemeOrFeature,count);
