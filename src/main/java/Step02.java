@@ -103,10 +103,10 @@ public class Step02 {
 
 
         //For demo testing
-        FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path)));
+        //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path))); //TODO: un-comment for demo
 
         //Actual NGRAM
-        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
+        FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
 
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step02", App.s3Path)));
 
