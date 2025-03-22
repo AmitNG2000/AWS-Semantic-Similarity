@@ -37,15 +37,19 @@ public class Step3 {
             //creates a represention of the vectors format (all the fetchers in a lexicographic order)
             Set<String> lexemeSet = Utils.retrieveLexemeSet();
             Set<String> depLabelSet = Utils.retrieveDepLabelSet();
+
+            //bulid vectorStretcher
             List<String> vectorStretcherLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
-            for (String lexeme : lexemeSet) {
-                for (String depLabel : depLabelSet) {
+            for (String lexeme : lexemeSet) { //lexemes from the `word-relatedness.txt`
+                for (String depLabel : depLabelSet) { //dependencies from the corpus
                     String fetcher = lexeme + "-" + depLabel;
-                    vectorStretcherLst.add(fetcher);
+                    if (lexemeFeatureToCount.containsKey(fetcher)) { //the fetcher is in the corpus.
+                        vectorStretcherLst.add(fetcher);
+                    }
                 }
             }
-            vectorStretcherLst.sort(String::compareTo);
-            vectorStretcherArr = vectorStretcherLst.toArray(new String[0]); //fetchers by lexicographic order.
+            vectorStretcherLst.sort(String::compareTo); //fetchers by lexicographic order.
+            vectorStretcherArr = vectorStretcherLst.toArray(new String[0]);
 
             //calculates countL and countF
             for (String key : lexemeFeatureToCount.keySet()) {
@@ -80,8 +84,13 @@ public class Step3 {
 
             //method 6
             for (int i = 0; i < v6.length; i++) {
-                if (v6[i].equals("0")) continue;
-                v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStretcherArr[i]));
+                try {
+                    if (v6[i].equals("0")) continue;
+                    v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStretcherArr[i]));
+                    // the problem is what to do if i hava a feature that have a lexeme from the 'word-relatedness.txt' so it won't appear in the lexemeFeatureToCount.
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Error in line: " + line.toString(), e);
+                }
             }
 
             // method 7 + 8
@@ -160,16 +169,9 @@ public class Step3 {
         job.setOutputValueClass(Text.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        //For demo testing input format
         job.setInputFormatClass(TextInputFormat.class);
 
-        //For demo testing
         FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step2", App.s3Path)));
-
-        //Actual NGRAM
-        //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3
-        //FileInputFormat.addInputPath(job, new Path(String.format("%s/outputs/output_step1", App.s3Path)));  // Add Step 1 input
-
         FileOutputFormat.setOutputPath(job, new Path(String.format("%s/outputs/output_step3", App.s3Path)));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);

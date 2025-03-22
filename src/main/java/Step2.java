@@ -120,10 +120,13 @@ public class Step2 {
         @Override
         protected void cleanup(Context context) throws IOException, InterruptedException {
 
+            Map<String, Long> lexemeFeatureToCount = Utils.retrievelexemeFeatureToCountMap();
             for (String lexeme : lexemeSet) {
                 for (String depLabel : depLableSet) {
                     String feature = lexeme + "-" + depLabel;
-                    context.write(new Text(lexeme), new Text(feature + " " + "0"));
+                    if (lexemeFeatureToCount.containsKey(feature)) { //the feature is in the corpus.
+                        context.write(new Text(lexeme), new Text(feature + " " + "0"));
+                    }
                 }
             }
         }

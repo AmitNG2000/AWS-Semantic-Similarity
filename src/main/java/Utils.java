@@ -74,7 +74,7 @@ public class Utils {
 
     /**
      * Creates a set from step02's output.
-     * @return depLabel
+     * @return depLabel set contain all the dependencies from the corpus.
      * @throws IOException
      */
     public static Set<String> retrieveDepLabelSet() throws IOException {
@@ -85,7 +85,11 @@ public class Utils {
         return depLabelSet;
     }
 
-
+    /**
+     *
+     * @return lexemeFeatureToCountMap containing all the lexemes and feature in the corpus.
+     * @throws IOException
+     */
     public static Map<String, Long> retrievelexemeFeatureToCountMap() throws IOException{
         Map<String,Long> lexemeFeatureToCountMap = new HashMap<>();
 
