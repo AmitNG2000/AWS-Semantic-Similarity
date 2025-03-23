@@ -78,10 +78,41 @@ public class Utils {
      * @throws IOException
      */
     public static Set<String> retrieveDepLabelSet() throws IOException {
+        Set<String> depLabelSet = new HashSet<>();
+        
+        String fileKey = "outputs/output_step1/part-r-00000";
+        
+        // Retrieve file from S3
+        S3Object s3object = s3Client.getObject(App.bucketName, fileKey);
+        S3ObjectInputStream inputStream = s3object.getObjectContent();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        String fileKey = "outputs/output_step02/part-r-00000";
-        Set<String> depLabelSet = retrieveSetFromFile(App.bucketName, fileKey);
-        System.out.println("[DEBUG] retrieveDepLabelSet " + depLabelSet); //TODO: delete after demo
+        if (!reader.ready()) {
+            throw new IOException("retrieveDepLabelSet: S3 file is empty: " + fileKey);
+        }
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] lineParts = line.trim().split("\t");
+            if (lineParts.length >= 2) {
+                String key = lineParts[0];
+                // Only add dependency labels (features that contain a hyphen)
+                if (key.contains("-")) {
+                    String depLabel = key.substring(key.indexOf("-") + 1);
+                    depLabelSet.add(depLabel);
+                }
+            }
+        }
+
+        // Manually close resources
+        reader.close();
+        inputStream.close();
+
+        if (depLabelSet.isEmpty()) {
+            throw new IOException("retrieveDepLabelSet: Loaded set is empty.");
+        }
+
+        System.out.println("[DEBUG] retrieveDepLabelSet " + depLabelSet);
         return depLabelSet;
     }
 

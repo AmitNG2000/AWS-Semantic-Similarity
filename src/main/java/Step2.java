@@ -60,73 +60,37 @@ public class Step2 {
 
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
             String line = value.toString().trim();
+            String[] fields = line.split("\t");
 
-            /*
-            // Read input line from either Step 1 output OR N-Gram files
-            // Detect if the line is from Step 1 output
-            if (line.contains("lexeme_set")) {
-                // Step 1 lexeme set format: "lexeme_set word1 word2 word3 ..."
-                String[] lexemes = line.split("\\s+"); // Split by whitespace
-                for (int i = 1; i < lexemes.length; i++) {
-                    lexemeSet.add(lexemes[i].trim());
-                }
-                System.out.println("[DEBUG] Loaded " + lexemeSet.size() + " lexemes from Step 1.");
-                return;  // Do not process further
-            }
-            */
+            String syntacticNgram = fields[1].trim();
+            String totalCount = fields[2].trim();
 
-            // Process the N-GRAM lines
-            //Format: cease<tab>cease/VB/ccomp/0 for/IN/prep/1 an/DT/det/4 boys/NN/pobj/2<tab>56<tab>1834,2
-
-            String[] fields = line.split("\t"); // Tab-separated
-
-            // if (fields.length < 3) return; // Ensure correct format //TODO: un-comment?
-
-            //String headword = fields[0].trim();  // Extract headword (we don’t care? it's just the first word)
-            String syntacticNgram = fields[1].trim(); // Extract dependency structure
-            String totalCount = fields[2].trim(); // Extract frequency count
-
-            // Process the entire syntactic N-Gram
             String[] tokens = syntacticNgram.split(" ");
 
             for (String token : tokens) {
-                //Token Format: cease/VB/ccomp/0
                 String[] tokenParts = token.split("/");
-
-                //if (tokenParts.length < 3) continue; // Skip malformed tokens //TODO: un-comment?
-
                 String word = tokenParts[0].trim();
                 String depLabel = tokenParts[2].trim();
-
-                // Stemming (normalize the word)
-                // if (word.isEmpty()) continue; //TODO: un-comment?
                 String lexeme = Utils.stemAndReturn(word);
 
-                // Only process if lexeme is in lexemeSet
-                if (!lexemeSet.contains(lexeme)) continue; //filter lexemes that are not presented at `word-relatedness.txt`.
-                //if (!depLableSet.contains(depLabel)) continue; //TODO: un-comment after demo
+                if (!lexemeSet.contains(lexeme)) continue;
+                if (!depLableSet.contains(depLabel)) continue;
 
-                // depLableSet.add(depLabel); // Store a;; possibles dependency labels
                 String feature = lexeme + "-" + depLabel;
-                context.write(new Text(lexeme), new Text (feature + " " + totalCount)); // Output: (Text lexeme, Text feature <space> quantity)
+                context.write(new Text(lexeme), new Text(feature + " " + totalCount));
             }
         }
 
-        /**
-         * For each lexeme emit all possibles feature, ensuring every lexeme has a full features vector.
-         */
         @Override
         protected void cleanup(Context context) throws IOException, InterruptedException {
-
             Map<String, Long> lexemeFeatureToCount = Utils.retrievelexemeFeatureToCountMap();
             for (String lexeme : lexemeSet) {
                 for (String depLabel : depLableSet) {
                     String feature = lexeme + "-" + depLabel;
-                    if (lexemeFeatureToCount.containsKey(feature)) { //the feature is in the corpus.
-                        context.write(new Text(lexeme), new Text(feature + " " + "0"));
-                    }
+                    // Write all possible feature combinations, using 0 for features not in corpus
+                    context.write(new Text(lexeme), new Text(feature + " " + 
+                        (lexemeFeatureToCount.containsKey(feature) ? lexemeFeatureToCount.get(feature) : "0")));
                 }
             }
         }
