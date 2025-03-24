@@ -57,36 +57,36 @@ public class Step4 {
     public static class ReducerClass extends Reducer<Text, Text, Text, Text> {
 
         @Override
-        public void reduce(Text lexemes, Iterable<Text> unitedVectors, Context context) throws IOException, InterruptedException {
+        public void reduce(Text lexemes, Iterable<Text> unitedVectors, Context context) throws IOException, InterruptedException, IllegalArgumentException {
             // Input format: lexeme1 lexeme2 <TAB> v5:v6:v7:v8
             // Expecting 2 values per key
 
-            List<double[]> lexeme1_vectors = new ArrayList<>();
-            List<double[]> lexeme2_vectors = new ArrayList<>();
+            double[][] lexeme1_vectors = new double[4][];
+            double[][] lexeme2_vectors = new double[4][];
 
             int i = 0;
             for (Text unitedVector : unitedVectors) {
                 String[] vectors = unitedVector.toString().split(":");
-
+                // vectors = v5:v6:v7:v8  vi is a space separated vector
                 if (vectors.length != 4) {
                     throw new IOException("For " + lexemes.toString() + "Expected 4 vectors (v5:v6:v7:v8), but got " + vectors.length);
                 }
 
+
                 if (i == 0) {
-                    for (String vector : vectors) {
-                        lexeme1_vectors.add(Arrays.stream(vector.split(" ")).mapToDouble(Double::parseDouble).toArray());
+                    for (int j=0; j<4; j++){
+                        lexeme1_vectors[j] = Arrays.stream(vectors[j].split(" ")).mapToDouble(Double::parseDouble).toArray();
                     }
                 }
 
                 if (i == 1) {
-                    for (String vector : vectors) {
-                        lexeme2_vectors.add(Arrays.stream(vector.split(" ")).mapToDouble(Double::parseDouble).toArray());
+                    for (int j=0; j<4; j++){
+                        lexeme2_vectors[j] = Arrays.stream(vectors[j].split(" ")).mapToDouble(Double::parseDouble).toArray();
                     }
                 }
 
                 i++;
             }
-
             // compute vector similarity measures with 6 methods.
 
 
@@ -96,8 +96,16 @@ public class Step4 {
             // The orders of the measures is by the order of the artical.
             List<Double> result_24_vector = new ArrayList<>();
             for (int j = 0; j < 4; j++) {
-                double[] vec1 = lexeme1_vectors.get(j);
-                double[] vec2 = lexeme2_vectors.get(j);
+                double[] vec1 = lexeme1_vectors[j];
+                double[] vec2 = lexeme2_vectors[j];
+
+                if (vec1.length == 0 || vec2.length == 0) {
+                    throw new IllegalArgumentException("Vector length is 0. vec1 = " + vec1 + ", vec2 = " + vec2);
+                }
+
+                if (vec1.length != vec2.length) {
+                    throw new IllegalArgumentException("Vector length mismatch: vec1 = " + vec1 + ", vec2 = " + vec2);
+                }
 
                 result_24_vector.add(dist_by_method_9(vec1, vec2));
                 result_24_vector.add(dist_by_method_10(vec1, vec2));
