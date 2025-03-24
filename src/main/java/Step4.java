@@ -89,6 +89,11 @@ public class Step4 {
             }
             // compute vector similarity measures with 6 methods.
 
+            if (i!=2) {
+                // throw new IllegalArgumentException("Expected 2 vectors for " + lexemes.toString() + " unitedVectors: " + unitedVectors.toString());
+                return; // One of the lexeme is not in the corpus but is presented because it is in the word-relatedness.txt.
+            }
+
 
 
             // Compute results and store them in result_24_vector
