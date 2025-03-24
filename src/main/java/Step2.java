@@ -143,6 +143,8 @@ public class Step2 {
             // Step 1: build a dictionary, (TreeMap to keep features sorted)
             Map<String, Long> featureCounts = new TreeMap<>();
 
+            StringBuilder featureVector = new StringBuilder();
+
             for (Text fc : fcCouples) {
 
                 String[] fcParts = fc.toString().split(" "); // value format: feature count
@@ -158,7 +160,6 @@ public class Step2 {
 
             // From the dictionary builds a vector of the counts order by the lexicographic order of the feature's title.
             // since the map is a tree map we will get a natural order of the features. Insuring consist structure in all the lexemes.
-            StringBuilder featureVector = new StringBuilder();
             for (Map.Entry<String, Long> entry : featureCounts.entrySet()) {
                 featureVector.append(entry.getValue()).append(" ");
             }
