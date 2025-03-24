@@ -153,6 +153,8 @@ public class Step2 {
                 //Aggregate the Counts (L=l, F=f)
                 featureCounts.put(feature, (featureCounts.getOrDefault(feature, 0L) + Long.parseLong(count)));
             }
+            System.out.println("COUNT CHECK: " + featureCounts);
+            System.err.println("COUNT CHECK: " + featureCounts);
 
             // From the dictionary builds a vector of the counts order by the lexicographic order of the feature's title.
             // since the map is a tree map we will get a natural order of the features. Insuring consist structure in all the lexemes.
