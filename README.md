@@ -12,15 +12,10 @@ Amit Ner-Gaon: 211649801
 
 ## Intro
 This project is the third assignment in the *Distributed System Programming: Scale Out with Cloud Computing and Map-Reduce* course at Ben-Gurion University in 2025. Assignment instructions can be found in [assignment3.pdf](resources/assignment3.pdf).
-
 This project focuses on *semantic similarity classification* using *MapReduce* and *Machine Learning*.
-
 The project is based on the paper [Comparing Measures of Semantic Similarity](https://ieeexplore.ieee.org/document/4588492). We modify the algorithm and use the [Google Syntactic N-Grams](https://commondatastorage.googleapis.com/books/syntactic-ngrams/index.html) as the corpus.
-
 Before processing, we use a [Porter Stemmer](https://vijinimallawaarachchi.com/2017/05/09/porter-stemming-algorithm/) to obtain the lexeme of each word. We define a feature as a pair consisting of a lexeme and a dependency label. For each lexeme, the system builds a representative vector where each entry represents the count of a specific feature.
-
 Then, for each pair of lexemes, the system constructs a 24-dimensional vector representing the distance between the lexemes' vectors, evaluated using four measures of association with context and six measures of vector similarity.
-
 Finally, we use [WEKA](https://ml.cms.waikato.ac.nz/weka/) to train a classifier and evaluate the system's accuracy, referring to [word-relatedness.txt](resources/word-relatedness.txt) as ground truth.
 
 ## How to run
@@ -38,6 +33,19 @@ aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
 ```
 
 ## System Architecture
+
+### Terminology
+
+* **Feature:** a pair consisting of a lexeme and a dependency label.
+
+#### Counts:
+* **count(F):** The total number of features.
+* **count(F = f):** The number of occurrences of a specific feature *f*.
+* **count(L):** The total number of lexemes.
+* **count(L = l):** The number of occurrences of a specific lexeme *l*.
+* **count(F = f, L = l):** The number of times the specific feature *f* appears with the specific lexeme *l*.
+
+
 
 ### Intro
 The system consists of four parts:
