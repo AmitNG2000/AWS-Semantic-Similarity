@@ -106,11 +106,13 @@ public class Step3 {
                 }
 
 
-                if (!v7[i].equals("0")) continue;
+                if (!v7[i].equals("0") || countF ==0 || countL==0) continue;
 
                 p_l_f = Double.parseDouble(counts_fl_vector[i]) / countF;
                 p_l = (double) lexemeFeatureToCount.get(lexeme) / countL;
                 p_f = (double) lexemeFeatureToCount.get(vectorStretcherArr[i]) / countL;
+
+                if (p_l_f==0 || p_l == 0 || p_f==0 ) continue;
 
                 //method 7
                 double value_by_7 = Math.log(p_l_f / (p_l * p_f)) / Math.log(2); //to get a log with base 2

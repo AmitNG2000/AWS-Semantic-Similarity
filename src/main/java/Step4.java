@@ -144,15 +144,19 @@ public class Step4 {
         }
 
         protected double dist_by_method_11(double[] vector1, double[] vector2) {
-                double sumOfProducts = 0.0;
-                double sumOfSquaredVector1 = 0.0;
-                double sumOfSquaredVector2 = 0.0;
-                for (int i = 0; i < vector1.length; i++) {
-                    sumOfProducts += vector1[i] * vector2[i];
-                    sumOfSquaredVector1 += Math.pow(vector1[i], 2);
-                    sumOfSquaredVector2 += Math.pow(vector2[i], 2);
-                }
-            return (sumOfProducts / (Math.sqrt(sumOfSquaredVector1) * Math.sqrt(sumOfSquaredVector2)));
+            double sumOfProducts = 0.0;
+            double sumOfSquaredVector1 = 0.0;
+            double sumOfSquaredVector2 = 0.0;
+            for (int i = 0; i < vector1.length; i++) {
+                sumOfProducts += vector1[i] * vector2[i];
+                sumOfSquaredVector1 += Math.pow(vector1[i], 2);
+                sumOfSquaredVector2 += Math.pow(vector2[i], 2);
+            }
+            if (sumOfProducts==0 || sumOfSquaredVector1 == 0 || sumOfSquaredVector2==0){
+                return 0;
+            } else {
+                return (sumOfProducts / (Math.sqrt(sumOfSquaredVector1) * Math.sqrt(sumOfSquaredVector2)));
+            }
         }
 
         protected double dist_by_method_13(double[] vector1, double[] vector2) {
@@ -162,7 +166,8 @@ public class Step4 {
                 sumOfMin += Math.min(vector1[i], vector2[i]);
                 sumOfMax += Math.max(vector1[i], vector2[i]);
             }
-            return sumOfMin / sumOfMax;
+
+            return (sumOfMin!=0 && sumOfMax!=0) ? (sumOfMin / sumOfMax) : 0;
         }
 
         protected double dist_by_method_15(double[] vector1, double[] vector2) {
@@ -172,7 +177,7 @@ public class Step4 {
                 sumOfMin += Math.min(vector1[i], vector2[i]);
                 sumOfCoordinate += vector1[i] + vector2[i];
             }
-            return 2* sumOfMin / sumOfCoordinate;
+            return (sumOfMin!=0 && sumOfCoordinate!=0) ? (2* sumOfMin / sumOfCoordinate) : 0;
         }
 
         protected double dist_by_method_17(double[] vector1, double[] vector2) {
@@ -196,7 +201,7 @@ public class Step4 {
             double klDiv = 0.0;
             for (int i = 0; i < p.length; i++) {
                 if (p[i] > 0 && q[i] > 0) {  // Prevent log(0)
-                    klDiv += p[i] * Math.log(p[i] / (q[i] + 1e-10));
+                    klDiv += p[i] * Math.log(p[i] / q[i]);
                 }
             }
             return klDiv;
