@@ -1,21 +1,18 @@
 import java.io.*;
 import java.util.*;
 
-public class ConvertToARFF {
+public class Step5ConvertToARFF {
 
     public static String stem(String word) {
-        Stemmer stemmer = new Stemmer();
-        stemmer.add(word.toCharArray(), word.length());
-        stemmer.stem();
-        return stemmer.toString();
+        return Utils.stemAndReturn(word);
     }
 
     public static void main(String[] args) throws IOException {
-        String step4OutputDir = "C:\\Users\\naveh\\Desktop\\School\\bgu\\awscourse\\עבודה במבוזרות\\עבודה 3\\ASS3 GITHUB\\step4_output";
-        String goldStandardPath = "C:\\Users\\naveh\\Desktop\\School\\bgu\\awscourse\\עבודה במבוזרות\\עבודה 3\\ASS3 GITHUB\\resources\\word-relatedness.txt";
+        String step4OutputDir = "resources/results";
+        String goldStandardPath = "resources/word-relatedness.txt";
         String arffOutputPath = "semantic_similarity.arff";
 
-        // Load gold standard
+        // Load gold standard as a HashMap
         Map<String, Boolean> goldStandard = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(goldStandardPath))) {
             String line;
@@ -26,6 +23,7 @@ public class ConvertToARFF {
                     String word2 = stem(parts[1].trim());
                     Boolean isRelated = Boolean.parseBoolean(parts[2].trim());
 
+                    //consist structure
                     if (word1.compareTo(word2) > 0) {
                         String tmp = word1;
                         word1 = word2;
@@ -90,6 +88,6 @@ public class ConvertToARFF {
             }
         }
 
-        System.out.println("✅ ARFF file created successfully: " + arffOutputPath);
+        System.out.println("ARFF file created successfully: " + arffOutputPath);
     }
 }
