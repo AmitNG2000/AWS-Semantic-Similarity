@@ -18,8 +18,8 @@ public class App {
     public static AmazonEC2 ec2;
     public static AmazonElasticMapReduce emr;
 
-    public static int numberOfInstances = 2;
-    protected static final String bucketName = "bucketassignment33";
+    public static int numberOfInstances = 5;
+    protected static final String bucketName = "bucketassignment3";
     public static final String s3Path = String.format("s3://%s", bucketName);
 
     public static void main(String[] args) {
@@ -109,20 +109,19 @@ public class App {
 
             // Configure job flow
             JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
-                    .withInstanceCount(numberOfInstances)
-                    .withMasterInstanceType(InstanceType.M4Large.toString())
-                    .withSlaveInstanceType(InstanceType.M4Large.toString())
-                    .withKeepJobFlowAliveWhenNoSteps(false)
-                    .withPlacement(new PlacementType("us-east-1a"));
+                    .withInstanceCount(5)
+                    .withMasterInstanceType("m5.xlarge")
+                    .withSlaveInstanceType("m5.xlarge")
+                    .withKeepJobFlowAliveWhenNoSteps(false);  // no placement!
 
             RunJobFlowRequest runFlowRequest = new RunJobFlowRequest()
                     .withName("Map reduce project")
                     .withInstances(instances)
-                    .withSteps(Arrays.asList(stepConfig01, stepConfig02, stepConfig1, stepConfig2, stepConfig3, stepConfig4))
+                    .withSteps(Arrays.asList(stepConfig01, stepConfig02, stepConfig1, stepConfig2, stepConfig3, stepConfig4))  // your steps
                     .withLogUri(String.format("%s/logs/", s3Path))
                     .withServiceRole("EMR_DefaultRole")
                     .withJobFlowRole("EMR_EC2_DefaultRole")
-                    .withReleaseLabel("emr-5.11.0");
+                    .withReleaseLabel("emr-6.13.0");
 
             RunJobFlowResult runJobFlowResult = emr.runJobFlow(runFlowRequest);
             System.out.println("Ran job flow with id: " + runJobFlowResult.getJobFlowId());
