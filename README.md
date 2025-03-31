@@ -28,7 +28,7 @@ Finally, we use [WEKA](https://ml.cms.waikato.ac.nz/weka/) to train a classifier
 ## Extra Info
 - To read the output file directly from an S3 bucket without downloading it to your local system, you can use the following command:
 
-```java
+```bs
 aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
 ```
 
@@ -61,7 +61,7 @@ The system consists of four parts:
 * **Step 02**: create a `DepLabelSet` with the all dependencies label in the `corpus`.
 * **Step 1**: calculates count(F=f) and count(L=l) at the `corpus`. Used for creating `lexemeFeatureToCountMap`. Output: (Text feature/lexeme, LongWritable quantity).
 * **Step 2**: for each lexeme presented in both the `corpus` and `word-relatedness.txt`, calculates a vector of counts(F=f,L=l). The step uses `TreeMap` to create a lexicographically ordered map, ensuring a consistent structure for all lexeme vectors. Output: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
-* **Step 3**: measure association with the context and create four vectors, one for each association method. Output: (Text lexeme, Text v5:v6:v7:v8, vi is space separated vector.
+* **Step 3**: measure association with the context and create four vectors, one for each association method. Output: (Text lexeme, Text v5:v6:v7:v8, vi is space separated vector).
 * **Step 4**: using fuzzy join, for each lexemes pair, create a 24-dimensional vector that measures vector similarity (distance) using six distance measure methods. Output: (Text lexeme, Text paces_separated_vector)
 * **Step 5:** (Not part of the MapReduce pattern) Using Weka to assess the model's accuracy.
 
@@ -69,13 +69,23 @@ The system consists of four parts:
 As instructed, we assume that the word pairs in the gold-standard dataset `word-relatedness.txt` can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a mapper-side join with the data from step 1's output.  
 
 ## Input and Output Example
+
 [Run Example on a Small Corpus](resources/InpuOutputExample)
 
+
 ## Results
-[step4's output](step4_output)
+
+### System's Results
+[Step4's Output](resources/results)
+
+### Evaluation
 
 Using `WEKA` we trained a model on the `word-relatedness.txt` dataset. Then we used the tried model to evaluate the system's results.
-*(insert the report)*
+ </br> **(insert the weka report)**
+
+### Reports
+**(insert 10% and 100% reports)**
+
 
 ## Improvements suggestion
 With the benefit of hindsight, we would like to suggest a few improvements to the system architecture:
