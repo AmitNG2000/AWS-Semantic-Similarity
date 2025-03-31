@@ -66,10 +66,16 @@ The system consists of four parts:
 * **Step 5:** (Not part of the MapReduce pattern) Using Weka to assess the model's accuracy.
 
 ## Memory Assumptions
-As instructed, we assume that the word pairs in the gold-standard dataset (`word-relatedness.txt`) can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a mapper-side join with the data from step 1's output.  
+As instructed, we assume that the word pairs in the gold-standard dataset `word-relatedness.txt` can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a mapper-side join with the data from step 1's output.  
 
 ## Input and Output Example
-[Run Example](resources/InpuOutputExample)
+[Run Example on a Small Corpus](resources/InpuOutputExample)
+
+## Results
+[step4's output](step4_output)
+
+Using `WEKA` we trained a model on the `word-relatedness.txt` dataset. Then we used the tried model to evaluate the system's results.
+*(insert the report)*
 
 ## Improvements suggestion
 With the benefit of hindsight, we would like to suggest a few improvements to the system architecture:
