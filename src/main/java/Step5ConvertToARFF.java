@@ -10,7 +10,7 @@ public class Step5ConvertToARFF {
     public static void main(String[] args) throws IOException {
         String step4OutputDir = "resources/results";
         String goldStandardPath = "resources/word-relatedness.txt";
-        String arffOutputPath = "semantic_similarity.arff";
+        String arffOutputPath = "resources/InpuOutputExample/Output/Step5_semantic_similarity.arff";
 
         // Load gold standard as a HashMap
         Map<String, Boolean> goldStandard = new HashMap<>();

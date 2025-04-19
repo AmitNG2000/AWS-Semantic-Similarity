@@ -67,11 +67,11 @@ The system consists of four parts:
 * **Step 1**: calculates count(F=f) and count(L=l) at the `corpus`. Used for creating `lexemeFeatureToCountMap`. Output: (Text feature/lexeme, LongWritable quantity).
 * **Step 2**: for each lexeme presented in both the `corpus` and `word-relatedness.txt`, calculates a vector of counts(F=f,L=l). The step uses `TreeMap` to create a lexicographically ordered map, ensuring a consistent structure for all lexeme vectors. Output: (Text lexeme, Text spaces_separated_counts(F=f, L=l))
 * **Step 3**: measure association with the context and create four vectors, one for each association method. Output: (Text lexeme, Text v5:v6:v7:v8, vi is space separated vector).
-* **Step 4**: using fuzzy join, for each lexemes pair, create a 24-dimensional vector that measures vector similarity (distance) using six distance measure methods. Output: (Text lexeme, Text paces_separated_vector)
+* **Step 4**: using *fuzzy join*, for each lexemes pair, create a 24-dimensional vector that measures vector similarity (distance) using six distance measure methods. Output: (Text lexeme, Text spaces_separated_vector)
 * **Step 5:** (Not part of the MapReduce pattern) Convert the result to ARFF type and using Weka to assess the model's accuracy.
 
 ## Memory Assumptions
-As instructed, we assume that the word pairs in the gold-standard dataset `word-relatedness.txt` can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a mapper-side join with the data from step 1's output.  
+As instructed, we assume that the word pairs in the gold-standard dataset `word-relatedness.txt` can be stored in memory. This assumption was used in steps 1 and 2 to build the lexeme set and in step 3 to perform a *mapper-side join* with the data from step 1's output.  
 
 ## Input and Output Example
 
@@ -81,25 +81,32 @@ As instructed, we assume that the word pairs in the gold-standard dataset `word-
 ## Results
 
 ### System's Results
-[Step4's Output](resources/results)
+[Steps Outputs](resources/Steps_results)
 
 ### Evaluation
 
-Using `WEKA` we trained a model on the `word-relatedness.txt` dataset. Then we used the tried model to evaluate the system's results.
+Using *WEKA*, we trained a model on the `word-relatedness.txt` dataset and evaluated the system’s results with the trained model.
 
-![WEKA Results](resources/WEKA_results.png)
+We chose the *RandomForest* classifier and applied *stratified 10-fold cross-validation* for training.
+This combination helps stabilize the learning process on imbalanced data and produces a more reliable model. This is necessary because both the *system's output* and the `word-relatedness.txt` dataset are heavily skewed toward the *FALSE* class (1:10 ration).
+
+
+![WEKA Results RandomForest](resources/WEKA/WEKA_results_RandomForest.jpg) <br/>
+[WEKA Results RandomForest](resources/WEKA/WEKA_results_J48.png)
+<br/>
+* We also tried the *J48* classifier [WEKA Results J48](resources/WEKA/WEKA_results_J48.png).
 
 ### Report
-[Report](resources/Report.docx)
+- [Report](resources/Report.docx)
 
 
 ## Improvements suggestion
 With the benefit of hindsight, we would like to suggest a few improvements to the system architecture:
 
-* **Unify Step01, Step02, and Step1 into a single step.** The updated step will:
-    1. **`Mapper.setup()`**: Create a set of all lexemes in `word-relatedness.txt`.
-    2. **`Mapper.map()`**: Process the `corpus` as input and, for each lexeme present in the set from `setup()`, calculate `count(L = l)` and `count(F = f)`. Emit with a tag to indicate whether it is a lexeme or a feature.
-    3. **`Reducer.reduce()`**: Sum up all counts and, using the tag, build two dictionaries, one for lexemes and one for features, mapping each lexeme/feature to its count.
+* Unify Step01, Step02, and Step1 into a single step. The updated step will:
+    1. `Mapper.setup()`: Create a set of all lexemes in `word-relatedness.txt`.
+    2. `Mapper.map()`: Process the `corpus` as input and, for each lexeme present in the set from `setup()`, calculate `count(L = l)` and `count(F = f)`. Emit with a tag to indicate whether it is a lexeme or a feature.
+    3. `Reducer.reduce()`: Sum up all counts and, using the tag, build two dictionaries, one for lexemes and one for features, mapping each lexeme/feature to its count.
 
 * We believe that using a JSON format or another textual representation of a dictionary would be a good practice instead of manually implementing the parsing.  
 
