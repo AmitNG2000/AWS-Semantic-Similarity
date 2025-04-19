@@ -24,7 +24,7 @@ public class Step3 {
     public static class MapperClass extends Mapper<LongWritable, Text, Text, Text> {
 
         private Map<String, Long> lexemeFeatureToCount = new HashMap<>();
-        private String[] vectorStretcherArr; //fetchers by lexicographic order.
+        private String[] vectorStructureArr; //fetchers by lexicographic order.
         private long countL = 0; //total count of all lexemes
         private long countF = 0; //total count of all feature
 
@@ -39,17 +39,17 @@ public class Step3 {
             Set<String> depLabelSet = Utils.retrieveDepLabelSet();
 
             // bulid vector structure
-            List<String> vectorStretcherLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
+            List<String> vectorStructureLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
             for (String lexeme : lexemeSet) { //lexemes from the `word-relatedness.txt`
                 for (String depLabel : depLabelSet) { //dependencies from the corpus
                     String fetcher = lexeme + "-" + depLabel;
                     if (lexemeFeatureToCount.containsKey(fetcher)) { //the fetcher is in the corpus.
-                        vectorStretcherLst.add(fetcher);
+                        vectorStructureLst.add(fetcher);
                     }
                 }
             }
-            vectorStretcherLst.sort(String::compareTo); //fetchers by lexicographic order.
-            vectorStretcherArr = vectorStretcherLst.toArray(new String[0]);
+            vectorStructureLst.sort(String::compareTo); //fetchers by lexicographic order.
+            vectorStructureArr = vectorStructureLst.toArray(new String[0]);
 
             //calculates countL and countF
             for (String key : lexemeFeatureToCount.keySet()) {
@@ -86,7 +86,7 @@ public class Step3 {
             for (int i = 0; i < v6.length; i++) {
                 try {
                     if (v6[i].equals("0")) continue;
-                    v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStretcherArr[i]));
+                    v6[i] = String.valueOf(Long.parseLong(v6[i]) / lexemeFeatureToCount.get(vectorStructureArr[i]));
                     // the problem is what to do if i hava a feature that have a lexeme from the 'word-relatedness.txt' so it won't appear in the lexemeFeatureToCount.
                 } catch (Exception e) {
                     throw new IllegalArgumentException("Error in line: " + line.toString(), e);
@@ -110,7 +110,7 @@ public class Step3 {
 
                 p_l_f = Double.parseDouble(counts_fl_vector[i]) / countF;
                 p_l = (double) lexemeFeatureToCount.get(lexeme) / countL;
-                p_f = (double) lexemeFeatureToCount.get(vectorStretcherArr[i]) / countL;
+                p_f = (double) lexemeFeatureToCount.get(vectorStructureArr[i]) / countL;
 
                 if (p_l_f==0 || p_l == 0 || p_f==0 ) continue;
 
