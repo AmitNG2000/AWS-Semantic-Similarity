@@ -38,7 +38,7 @@ public class Step3 {
             Set<String> lexemeSet = Utils.retrieveLexemeSet();
             Set<String> depLabelSet = Utils.retrieveDepLabelSet();
 
-            //bulid vectorStretcher
+            // bulid vector structure
             List<String> vectorStretcherLst = new ArrayList<>(lexemeSet.size() * depLabelSet.size()); //memory assumption: the list can be stored in memory.
             for (String lexeme : lexemeSet) { //lexemes from the `word-relatedness.txt`
                 for (String depLabel : depLabelSet) { //dependencies from the corpus

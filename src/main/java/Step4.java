@@ -40,6 +40,7 @@ public class Step4 {
             String lexeme1 = lineParts[0];
             String vectors = lineParts[1];
 
+            // preforms fuzzy join
             for (String lexeme2 : lexemeSet) {
                 // Use compareTo for lexicographic comparison
                 if (lexeme1.compareTo(lexeme2) < 0) {

@@ -31,31 +31,6 @@ public class Step2 {
 
             lexemeSet = Utils.retrieveLexemeSet();
             depLableSet = Utils.retrieveDepLabelSet();
-
-            /*
-            Gson gson = new Gson();
-
-            // Configure AWS client using instance profile credentials (recommended when
-            // running on AWS infrastructure)
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withRegion("us-east-1") // Specify your bucket region
-                    .build();
-
-            String outputBucketName = String.format("%s/outputs/output_step1", App.s3Path);
-            String key = "part-r-00000"; // S3 object key for the word-relatedness file
-
-            S3Object s3object = s3Client.getObject(outputBucketName, key);
-            S3ObjectInputStream inputStream = s3object.getObjectContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] lineParts = line.split("\t");
-                if (lineParts[0].equals("lexeme_set")) {
-                    Set<String> lexemeSet = new HashSet<>(Arrays.asList(gson.fromJson(lineParts[1], String[].class)));
-                }
-            }
-             */
         }
 
         @Override
@@ -90,41 +65,12 @@ public class Step2 {
                     String feature = lexeme + "-" + depLabel;
                     // Write all possible feature combinations, using 0 for features not in corpus
                     context.write(new Text(lexeme), new Text(feature + " " + 
-                        (lexemeFeatureToCount.containsKey(feature) ? lexemeFeatureToCount.get(feature) : "0")));
+                        (lexemeFeatureToCount.containsKey(feature) ? lexemeFeatureToCount.get(feature) : "0"))); //Should always write 0?
                 }
             }
         }
-
-        /*
-        // Apply stemming using Stemmer.java
-        private String applyStemming(String word) {
-            stemmer.add(word.toCharArray(), word.length());
-            stemmer.stem();
-            return new String(stemmer.getResultBuffer(), 0, stemmer.getResultLength());
-        }
-        */
     } //end of mapper class
 
-    /*
-    //aggravates the quantities
-    public static class CombinerClass extends Reducer<Text, LongWritable, Text, LongWritable> { //#TODO I'm not sure i used the right parameters?
-
-        private final LongWritable sumCount = new LongWritable();
-
-        @Override
-        public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
-            long sum = 0;
-
-            // Aggregate counts locally
-            for (LongWritable value : values) {
-                sum += value.get();
-            }
-
-            sumCount.set(sum);
-            context.write(key, sumCount);
-        }
-    }
-    */
 
     /*
     public static class PartitionerClass extends Partitioner<Text, LongWritable> {
@@ -143,12 +89,12 @@ public class Step2 {
             // Step 1: build a dictionary, (TreeMap to keep features sorted)
             Map<String, Long> featureCounts = new TreeMap<>();
 
-            StringBuilder featureVector = new StringBuilder();
+            StringBuilder featureVector = new StringBuilder(); //can't be inside the for loop!
 
-            for (Text fc : fcCouples) {
+            for (Text fc : fcCouples) { // fc as feature counts
 
                 String[] fcParts = fc.toString().split(" "); // value format: feature count
-                // if (fcParts.length < 2) continue; // Ignore malformed keys //TODO: un-comment after demo?
+                // if (fcParts.length < 2) continue; // Ignore malformed keys //TODO: un-comment?
                 String feature = fcParts[0];
                 String count = fcParts[1];
 
@@ -207,7 +153,6 @@ public class Step2 {
         //FileInputFormat.addInputPath(job, new Path(String.format("%s/ass3inputtemp.txt" , App.s3Path))); //TODO: un-comment for demo
 
         //Actual NGRAM
-         //FileInputFormat.addInputPath(job, new Path("s3a://biarcs/")); // Reads all N-Gram files from S3 //TODO: comment for demo
         // Load only files 0.txt to 9.txt from s3a://biarcs/ for testing
         for (int i = 0; i <= 9; i++) {
             FileInputFormat.addInputPath(job, new Path("s3a://biarcs/" + i + ".txt"));
