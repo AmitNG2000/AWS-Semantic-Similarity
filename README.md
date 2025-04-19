@@ -25,12 +25,17 @@ Finally, we use [WEKA](https://ml.cms.waikato.ac.nz/weka/) to train a classifier
 - Upload `word-relatedness.txt` to the S3 bucket. If an example corpus is needed, upload `s3inputtemp.txt` to S3.
 - Run `App`
 
-## Extra Info
-- To read the output file directly from an S3 bucket without downloading it to your local system, you can use the following command:
+<br/>
+
+#### Handy Command
+To read the output file directly from an S3 bucket without downloading it to your local system, you can use the following command:
 
 ```bs
 aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
 ```
+
+**Note:** You may need to install the `AWS Toolkit`.
+
 
 ## System Architecture
 
@@ -47,7 +52,7 @@ aws s3 cp s3://bucketassignment3/output_step1/part-r-00000 - | cat
 
 
 
-### Intro
+### Overview
 The system consists of four parts:
 
 1. **Step01, Step02 – Preprocessing:** Filter the relevant lexemes and features.
@@ -81,10 +86,11 @@ As instructed, we assume that the word pairs in the gold-standard dataset `word-
 ### Evaluation
 
 Using `WEKA` we trained a model on the `word-relatedness.txt` dataset. Then we used the tried model to evaluate the system's results.
- </br> **(insert the weka report)**
 
-### Reports
-**(insert 10% and 100% reports)**
+![WEKA Results](resources/WEKA_results.png)
+
+### Report
+[Report](resources/Report.docx)
 
 
 ## Improvements suggestion
