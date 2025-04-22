@@ -30,7 +30,7 @@ public class Utils {
         Set<String> mySet = new HashSet<>();
 
         // Retrieve file from S3
-        S3Object s3object = s3Client.getObject(bucketName, fileName);
+        S3Object s3object = s3Client.getObject(bucketName, fileName); //TODO: Change to get all output and not just one part.
         S3ObjectInputStream inputStream = s3object.getObjectContent();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 

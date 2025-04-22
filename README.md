@@ -7,8 +7,8 @@
 # README ASSIGNMENT 3
 ## Authors
 
-Naveh Vaz Dias Hadas:  209169424 </br>
-Amit Ner-Gaon: 211649801
+Naveh Vaz Dias Hadas </br>
+Amit Ner-Gaon
 
 ## Intro
 This project is the third assignment in the *Distributed System Programming: Scale Out with Cloud Computing and Map-Reduce* course at Ben-Gurion University in 2025. Assignment instructions can be found in [assignment3.pdf](resources/assignment3.pdf).
@@ -58,7 +58,7 @@ The system consists of four parts:
 1. **Step01, Step02 – Preprocessing:** Filter the relevant lexemes and features.
 2. **Step1, Step2 – Corpus Statistics:** Calculate `count(F = f)`, `count(L = l)`, and `count(F = f, L = l)`.
 3. **Step3, Step4 – Algorithm Calculation:** Measure association with context and compute vector similarity.
-4. **Step4 – Assessment:** Evaluate the model's accuracy.
+4. **Step5 – Assessment:** Evaluate the model's accuracy.
 
 
 ### Steps
