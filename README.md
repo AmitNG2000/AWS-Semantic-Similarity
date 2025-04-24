@@ -19,7 +19,7 @@ Then, for each pair of lexemes, the system constructs a 24-dimensional vector re
 Finally, we use [WEKA](https://ml.cms.waikato.ac.nz/weka/) to train a classifier and evaluate the system's accuracy, referring to [word-relatedness.txt](resources/word-relatedness.txt) as ground truth.
 
 ## How to run
-- Configure your AWS credentials.  
+- Configure your [AWS](https://www.awsacademy.com/vforcesite/LMS_Login) credentials.  
 - Create a bucket with `App.bucketname` and upload the steps' JAR files to `bucket/jars/`.  
 - In the S3 bucket, delete the `log/` and `outputs/` folders if they exist.  
 - Upload `word-relatedness.txt` to the S3 bucket. If an example corpus is needed, upload `s3inputtemp.txt` to S3.
